@@ -1,7 +1,8 @@
 import { Joke, JokeSettings, StopableJoke } from "../joke";
+import $ from "jquery";
 
 /**
- * Форумо-трясение
+ * **Форумо-трясение**
  * 
  * Страница форума начинает трястись
  * 
@@ -16,7 +17,6 @@ export class ShakeJoke extends StopableJoke {
     private items: JQuery;
 
     private data_name: string = 'april-fools-shake';
-
 
     rand(a: number): number {
         return a + this.settings.force * (Math.random() * 2 - 1);
@@ -85,6 +85,6 @@ export class ShakeJokeSettings implements JokeSettings {
     force: number = 0.5;
 }
 
-interface ShakeJokeMargin {
+export interface ShakeJokeMargin {
     [key: string]: number;
 }

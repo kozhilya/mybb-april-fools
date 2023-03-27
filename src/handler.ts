@@ -7,6 +7,16 @@ import { Joke, JokeSettings } from "./joke";
  */
 export class AprilFoolsJokeClass {
     /**
+     * Проверка вероятности
+     * 
+     * @param {number} chance Вероятность срабатывания
+     * @returns {boolean} Флаг срабатывания (true - сработало)
+     */
+    static check(chance: number): boolean {
+        return Math.random() < 0.01 * chance;
+    }
+
+    /**
      * Добавление шутки
      * 
      * @param joke
@@ -30,16 +40,6 @@ export class AprilFoolsJokeClass {
     }
 
     /**
-     * Проверка вероятности
-     * 
-     * @param {number} chance Вероятность срабатывания
-     * @returns {boolean} Флаг срабатывания (true - сработало)
-     */
-    check(chance: number): boolean {
-        return Math.random() < 0.01 * chance;
-    }
-
-    /**
      * Запуск шутки
      * 
      * @param id
@@ -51,7 +51,7 @@ export class AprilFoolsJokeClass {
 
         const joke = this.jokes[id];
 
-        if (!forced && !this.check(joke.settings.chance)) {
+        if (!forced && !AprilFoolsJokeClass.check(joke.settings.chance)) {
             return;
         }
 
