@@ -28,7 +28,7 @@ export class CrazyPunctuationJoke extends Joke {
         return newText;
     }
 
-    private process(node): void {
+    private process(node: any): void {
 
     }
 

@@ -1,13 +1,10 @@
-﻿{
+{
   "compilerOptions": {
-    "module": "AMD",
-    "lib": ["es2017", "dom"],
-    "rootDir": "./src/",
-    "outFile": "./bin/april-fools.js",
-    "moduleResolution": "nodenext",
-    "esModuleInterop": true
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "module": "es6",
+    "target": "es5",
+    "allowJs": true
   },
-  "files": [
-    "src/main.ts"
-  ]
+  "files": ["src/main.ts"]
 }
