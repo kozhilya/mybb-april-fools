@@ -37,12 +37,12 @@ export class CarnivalJokeSettings implements JokeSettings {
     chance: number = 30;
 
     /**
-     * Селектор всех элементов, которые будут трястись
+     * Селектор всех элементов, которые будут перекрашены
      */
     selector: string = 'img[src*="/avatars/"]';
 
     /**
-     * Вероятность применения фильтра
+     * Вероятность применения некоторого фильтра
      */
     variant_chance: number = 20;
 
