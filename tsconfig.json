@@ -1,0 +1,12 @@
+﻿{
+  "compilerOptions": {
+    "module": "AMD",
+    "lib": ["es2017", "dom"],
+    "rootDir": "./src/",
+    "outFile": "./bin/april-fools.js",
+    "moduleResolution": "nodenext"
+  },
+  "files": [
+    "src/main.ts"
+  ]
+}

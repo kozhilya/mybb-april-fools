@@ -1,0 +1,27 @@
+{
+  "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.21.0",
+    "@types/jquery": "^3.5.16",
+    "@types/markdown-it": "^12.2.3",
+    "@types/node": "^18.15.10",
+    "babelify": "^10.0.0",
+    "grunt": "^1.6.1",
+    "grunt-browserify": "^6.0.0",
+    "grunt-contrib-uglify": "^5.2.2",
+    "grunt-jsdoc-to-markdown": "^6.0.0",
+    "jsdoc-babel": "^0.5.0",
+    "jsdoc-to-markdown": "^8.0.0",
+    "markdown-it": "^13.0.1",
+    "markdown-it-container": "^3.0.0",
+    "tsify": "^5.0.4",
+    "typescript": "^5.0.2",
+    "uglify-js": "^3.17.4"
+  },
+  "scripts": {
+    "compile": "grunt & npm run jsdoc",
+    "jsdoc": "cmd /r \"jsdoc2md --files ./src/**/*.ts --configure ./jsdoc2md.json > ./docs/april-fools.md\""
+  }
+}
