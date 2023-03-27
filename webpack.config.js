@@ -9,6 +9,7 @@ const config = {
   entry: "./src/main.ts",
   output: {
     path: path.resolve(__dirname, "dist"),
+    filename: 'april-fools.js',
   },
   plugins: [
     // Add your plugins here
