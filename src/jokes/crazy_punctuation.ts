@@ -10,35 +10,45 @@ import $ from "jquery";
  */
 export class CrazyPunctuationJoke extends Joke {
     id = 'crazy_punctuation';
-    
+
     settings = new CrazyPunctuationJokeSettings;
 
-    private transform(text: string): string {
-        let newText = "";
+    punctuationSymbols: string[]|null = null;
 
-        for (let i = 0; i < text.length; i++) {
-            const currentChar = text[i];
-            const nextChar = text[i + 1];
-
-            if (this.settings.symbols.includes(currentChar)) {
-                newText += currentChar;
-            } else if (nextChar === " " || this.settings.symbols.includes(nextChar)) {
-                newText += currentChar;
-            }
+    private shufflePunctuation(text: string): string {
+        if (this.punctuationSymbols === null) {
+            this.punctuationSymbols = this.settings.symbols.split('');
         }
+        const words = text.split(" ");
 
-        return newText;
-    }
+        const shuffledWords = words.map(word => {
+            const characters = word.split("");
 
-    private process(node: any): void {
+            // Filter out any non-punctuation characters
+            const punctuation = characters.filter(char => this.punctuationSymbols.includes(char));
 
+            // Shuffle the punctuation array
+            const shuffledPunctuation = punctuation.sort(() => Math.random() - 0.5);
+
+            // Loop through each character in the word and replace punctuation with shuffled punctuation
+            let index = 0;
+            return characters.map(char => {
+                if (this.punctuationSymbols.includes(char)) {
+                    return shuffledPunctuation[index++];
+                }
+                return char;
+            }).join("");
+        });
+
+        // Join the shuffled words array into a single string with spaces
+        return shuffledWords.join(" ");
     }
 
     start(): void {
         const items = $(this.settings.selector).find('*').contents().filter((_, node) => node.nodeType === Node.TEXT_NODE);
 
         items.each((_, node) => {
-            console.log(node);
+            node.textContent = this.shufflePunctuation(node.textContent);
         })
     }
 }
@@ -49,7 +59,7 @@ export class CrazyPunctuationJokeSettings implements JokeSettings {
     /**
      * Селектор всех элементов, которые будут затронуты
      */
-    selector: string = '.post-content';
+    selector: string = '.post-content p';
 
     /**
      * Мигрирующие знаки

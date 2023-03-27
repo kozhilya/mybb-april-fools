@@ -3,6 +3,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const BomPlugin = require('webpack-utf8-bom');
+const { exec } = require('node:child_process');
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -13,7 +14,18 @@ const config = {
     filename: () => ('april-fools' + (isProduction ? '.min' : '') + '.js'),
   },
   plugins: [
-    new BomPlugin(true)
+    new BomPlugin(true),
+    {
+      apply: (compiler) => {
+        compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
+          exec('./upload.sh', (err, stdout, stderr) => {
+            if (stdout) process.stdout.write(stdout);
+            if (stderr) process.stderr.write(stderr);
+            console.log("Uploaded.");
+          });
+        });
+      }
+    }
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],
