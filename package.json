@@ -26,18 +26,15 @@
     "webpack-cli": "^5.0.1"
   },
   "scripts": {
-    "compile": "tsc & grunt uglify",
-    "jsdoc": "jsdoc2md --files ./src/**/*.ts --configure ./jsdoc2md.json > ./docs/april-fools.md",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch"
   },
   "dependencies": {
-    "jquery": "^3.6.4",
-    "requirejs": "^2.3.6"
+    "jquery": "^3.6.4"
   },
   "version": "1.0.0",
-  "description": "My webpack project",
-  "name": "my-webpack-project"
+  "description": "Mybb April Fools",
+  "name": "mybb-april-fools"
 }
