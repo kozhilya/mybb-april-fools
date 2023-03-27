@@ -2,9 +2,9 @@ import { Joke, JokeSettings, StopableJoke } from "../joke";
 import $ from "jquery";
 
 /**
- * **Ад гуманитария**
+ * **Мама, Я сОшЛа С уМа!**
  * 
- * Все "тся" заменяются на "ться", а все "ться" на "тся".
+ * иМеНа ЗаБоРчИкОм
  * 
  * @author Kozhilya
  */
