@@ -9,7 +9,9 @@ import $ from "jquery";
  * @author Kozhilya
  */
 export class MirrorJoke extends Joke {
-    settings: MirrorJokeSettings;
+    id = 'mirror';
+    
+    settings = new MirrorJokeSettings;
 
     start(): void {
         $('.post, .post h3, .post-links, .post-author, .post-content')

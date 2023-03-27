@@ -3,7 +3,7 @@
  */
 export interface JokeSettings {
     /**
-     * Вероятность срабатывания в процентах (0 для отключения)
+     * Вероятность срабатывания в процентах
      */
     chance: number;
 }
@@ -15,7 +15,7 @@ export abstract class Joke {
     /**
      * Идентификатор шутки
      */
-    id: string;
+    abstract id: string;
 
     /**
      * Настройки шутки
@@ -25,12 +25,7 @@ export abstract class Joke {
     /**
      * Флаг, указывающий, должна ли шутка быть запущена
      */
-    enabled: boolean;
-
-    /**
-     * Флаг, указывающий, может ли шутка быть остановлена
-     */
-    is_stopable: boolean;
+    enabled: boolean = true;
 
     /**
      * Запуск шутки

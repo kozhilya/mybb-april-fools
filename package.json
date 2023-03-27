@@ -32,7 +32,8 @@
     "watch": "webpack --watch"
   },
   "dependencies": {
-    "jquery": "^3.6.4"
+    "jquery": "^3.6.4",
+    "webpack-utf8-bom": "^1.4.0"
   },
   "version": "1.0.0",
   "description": "Mybb April Fools",

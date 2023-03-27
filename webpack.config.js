@@ -2,6 +2,7 @@
 
 const path = require("path");
 const webpack = require("webpack");
+const BomPlugin = require('webpack-utf8-bom');
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -9,9 +10,10 @@ const config = {
   entry: "./src/main.ts",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: 'april-fools.js',
+    filename: () => ('april-fools' + (isProduction ? '.min' : '') + '.js'),
   },
   plugins: [
+    new BomPlugin(true)
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],

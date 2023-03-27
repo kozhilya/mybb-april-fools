@@ -25,17 +25,51 @@ export class AprilFoolsJokeClass {
         this.jokes[joke.id] = joke;
     }
 
+    addCustom(id: string, handler: Function, settings: JokeSettings|null = null) {
+        const joke = new class extends Joke {
+            id = id;
+
+            settings: JokeSettings = { chance: 10 };
+
+            start() {
+                handler.call(this, this.settings);
+            }
+        };
+
+        Object.assign(joke.settings, settings ?? {});
+
+        this.add(joke);
+    }
+
+    core_settings = new CoreSettings;
+
+    get settings(): SettingsMap {
+        const result: SettingsMap = {};
+
+        result['core'] = this.core_settings;
+
+        for (const entries of Object.entries(this.jokes)) {
+            const id = entries[0];
+            const joke = entries[1];
+
+            result[id] = joke.settings;
+        }
+
+        return result;
+    }
+
     /**
      * Запись новых настроек
      * 
      * @param settings
      */
-    setSettings(settings: SettingsMap): void {
+    set settings(settings: SettingsMap) {
         for (const entry of Object.entries(settings)) {
             const id = entry[0];
             const jokeSettings = entry[1];
+            const targetSettings = (id === 'core') ? this.core_settings : this.jokes[id].settings;
 
-            this.jokes[id].settings = { ...this.jokes[id].settings, ...jokeSettings };
+            Object.assign(targetSettings, jokeSettings);
         }
     }
 
@@ -61,9 +95,19 @@ export class AprilFoolsJokeClass {
     /**
      * Запуск всех шуток
      */
-    startAll() {
+    startAll(forced: boolean = false): void {
         for (const key of Object.keys(this.jokes)) {
-            this.start(key);
+            this.start(key, forced);
+        }
+    }
+
+    regularStart(): void {
+        const today = new Date();
+        const month = today.getMonth() + 1; // Note that getMonth() returns 0-indexed month, so we need to add 1
+        const day = today.getDate();
+
+        if (month === 4 && day === 1 && AprilFoolsJokeClass.check(this.core_settings.chance)) {
+            this.startAll();
         }
     }
 
@@ -85,4 +129,11 @@ interface JokeMap {
  */
 interface SettingsMap {
     [key: string]: JokeSettings;
+}
+
+/**
+ * 
+ */
+class CoreSettings implements JokeSettings {
+    chance = 100;
 }

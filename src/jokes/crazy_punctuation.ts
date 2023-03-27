@@ -9,7 +9,9 @@ import $ from "jquery";
  * @author Kozhilya
  */
 export class CrazyPunctuationJoke extends Joke {
-    settings: CrazyPunctuationJokeSettings;
+    id = 'crazy_punctuation';
+    
+    settings = new CrazyPunctuationJokeSettings;
 
     private transform(text: string): string {
         let newText = "";

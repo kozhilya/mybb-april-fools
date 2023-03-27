@@ -9,7 +9,9 @@ import $ from "jquery";
  * @author Kozhilya
  */
 export class HumanitarianHellJoke extends Joke {
-    settings: HumanitarianHellJokeSettings;
+    id = 'humanitarian_hell';
+    
+    settings = new HumanitarianHellJokeSettings;
 
     start(): void {
         $(this.settings.selector).each(function () {

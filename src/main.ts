@@ -14,6 +14,8 @@ import { CrazyPunctuationJoke } from "./jokes/crazy_punctuation";
         cl.add(new joke());
     });
 
+    cl.regularStart();
+
     return cl;
 })([
     ShakeJoke,

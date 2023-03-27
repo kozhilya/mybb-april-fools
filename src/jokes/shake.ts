@@ -9,8 +9,9 @@ import $ from "jquery";
  * @author Kozhilya
  */
 export class ShakeJoke extends StopableJoke {
+    id = 'shake';
 
-    settings: ShakeJokeSettings;
+    settings = new ShakeJokeSettings;
 
     private interval_id: NodeJS.Timer;
 

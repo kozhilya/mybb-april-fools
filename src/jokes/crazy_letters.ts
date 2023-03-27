@@ -9,7 +9,9 @@ import $ from "jquery";
  * @author Kozhilya
  */
 export class CrazyLettersJoke extends Joke {
-    settings: CrazyLettersJokeSettings;
+    id = 'crazy_letters';
+
+    settings = new CrazyLettersJokeSettings;
 
     start(): void {
         $(this.settings.selector).each((_, elem) => {

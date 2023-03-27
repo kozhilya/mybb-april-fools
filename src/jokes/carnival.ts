@@ -3,15 +3,17 @@ import $ from "jquery";
 import { AprilFoolsJokeClass } from "../handler";
 
 /**
- * **Зеркало**
+ * **Карнавал**
  * 
- * Элементы форума отражаются (по крайней мере, пытаются)
+ * Аватарки приобретают интересные цвета
  * 
  * @author Kozhilya
  */
 export class CarnivalJoke extends Joke {
-    settings: CarnivalJokeSettings;
+    id = 'carnival'
 
+    settings = new CarnivalJokeSettings;
+    
     start(): void {
         $(this.settings.selector).each((_, elem) => {
             const filters: string[] = [];
@@ -25,7 +27,7 @@ export class CarnivalJoke extends Joke {
             }
 
             if (filters.length > 0) {
-                $(elem).css('filter', filters.join(' '));
+                $(elem).css({'filter': filters.join(' ')});
             }
         });
     }
