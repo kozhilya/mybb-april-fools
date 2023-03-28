@@ -28,6 +28,8 @@ export class CrazyLettersJoke extends Joke {
 }
 
 export class CrazyLettersJokeSettings implements JokeSettings {
+    enabled: boolean = true;
+
     chance: number = 20;
 
     /**

@@ -1,6 +1,6 @@
 import { Joke, JokeSettings, StopableJoke } from "../joke";
 import $ from "jquery";
-import { AprilFoolsJokeClass } from "../handler";
+import { JokerClass } from "../joker";
 
 /**
  * **Карнавал**
@@ -19,7 +19,7 @@ export class CarnivalJoke extends Joke {
             const filters: string[] = [];
 
             for (const entry of Object.entries(this.settings.variants)) {
-                if (!AprilFoolsJokeClass.check(this.settings.variant_chance)) {
+                if (!this.check(this.settings.variant_chance)) {
                     continue;
                 }
 
@@ -34,6 +34,8 @@ export class CarnivalJoke extends Joke {
 }
 
 export class CarnivalJokeSettings implements JokeSettings {
+    enabled: boolean = true;
+
     chance: number = 30;
 
     /**

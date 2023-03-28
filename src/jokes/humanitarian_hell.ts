@@ -23,6 +23,8 @@ export class HumanitarianHellJoke extends Joke {
 }
 
 export class HumanitarianHellJokeSettings implements JokeSettings {
+    enabled: boolean = true;
+
     chance: number = 20;
 
     /**

@@ -5,31 +5,38 @@ import { Joke, JokeSettings } from "./joke";
  * 
  * @author Kozhilya
  */
-export class AprilFoolsJokeClass {
+export class JokerClass {
     /**
      * Проверка вероятности
      * 
      * @param {number} chance Вероятность срабатывания
      * @returns {boolean} Флаг срабатывания (true - сработало)
      */
-    static check(chance: number): boolean {
+    check(chance: number): boolean {
         return Math.random() < 0.01 * chance;
     }
 
     /**
      * Добавление шутки
      * 
-     * @param joke
+     * @param joke Объект шутки
      */
     add(joke: Joke): void {
         this.jokes[joke.id] = joke;
     }
 
+    /**
+     * Регистрация новой шутки
+     * 
+     * @param id Идентификатор шутки
+     * @param handler Метод, выполняющий шутку
+     * @param settings Объект настроек шутки
+     */
     addCustom(id: string, handler: Function, settings: JokeSettings|null = null) {
         const joke = new class extends Joke {
             id = id;
 
-            settings: JokeSettings = { chance: 10 };
+            settings: JokeSettings = { chance: 10, enabled: true };
 
             start() {
                 handler.call(this, this.settings);
@@ -41,8 +48,9 @@ export class AprilFoolsJokeClass {
         this.add(joke);
     }
 
-    core_settings = new CoreSettings;
-
+    /**
+     * Получение полного списка настроек
+     */
     get settings(): SettingsMap {
         const result: SettingsMap = {};
 
@@ -72,6 +80,38 @@ export class AprilFoolsJokeClass {
             Object.assign(targetSettings, jokeSettings);
         }
     }
+    
+    /**
+     * Разблокировать систему
+     */
+    enable() {
+        this.core_settings.enabled = true;
+    }
+    
+    /**
+     * Заблокировать систему
+     */
+    disable() {
+        this.core_settings.enabled = false;
+    }
+    
+    /**
+     * Разблокировать все шутки
+     */
+    enableAll() {
+        for (const key of Object.keys(this.jokes)) {
+            this.jokes[key].enable();
+        }
+    }
+    
+    /**
+     * Заблокировать все шутки
+     */
+    disableAll() {
+        for (const key of Object.keys(this.jokes)) {
+            this.jokes[key].disable();
+        }
+    }
 
     /**
      * Запуск шутки
@@ -85,7 +125,7 @@ export class AprilFoolsJokeClass {
 
         const joke = this.jokes[id];
 
-        if (!forced && !AprilFoolsJokeClass.check(joke.settings.chance)) {
+        if (!forced && (!joke.settings.enabled || !this.check(joke.settings.chance))) {
             return;
         }
 
@@ -106,10 +146,17 @@ export class AprilFoolsJokeClass {
         const month = today.getMonth() + 1; // Note that getMonth() returns 0-indexed month, so we need to add 1
         const day = today.getDate();
 
-        if (month === 4 && day === 1 && AprilFoolsJokeClass.check(this.core_settings.chance)) {
-            this.startAll();
+        if (month !== 4 || day !== 1 || !this.core_settings.enabled || !this.check(this.core_settings.chance)) {
+            return;
         }
+
+        this.startAll();
     }
+
+    /**
+     * Общие настройки системы
+     */
+    core_settings = new CoreSettings;
 
     /**
      * Перечисление всех шуток
@@ -131,9 +178,7 @@ interface SettingsMap {
     [key: string]: JokeSettings;
 }
 
-/**
- * 
- */
 class CoreSettings implements JokeSettings {
     chance = 100;
+    enabled = true;
 }

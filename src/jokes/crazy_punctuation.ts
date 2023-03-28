@@ -54,6 +54,8 @@ export class CrazyPunctuationJoke extends Joke {
 }
 
 export class CrazyPunctuationJokeSettings implements JokeSettings {
+    enabled: boolean = true;
+
     chance: number = 20;
 
     /**

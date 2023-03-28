@@ -63,12 +63,19 @@ export class ShakeJoke extends StopableJoke {
 }
 
 export class ShakeJokeSettings implements JokeSettings {
+    enabled: boolean = true;
+
     chance: number = 1;
 
     /**
-     * Направление тряски
+     * Направление тряски (тряска происходит путём изменения перечисленных направлений margin на значение ±force от стандартного значения)
      */
     directions: string[] = ['top', 'left', 'bottom', 'left'];
+
+    /**
+     * Сила тряски - насколько отклоняется элемент от стандартного значения
+     */
+    force: number = 0.5;
 
     /**
      * Селектор всех элементов, которые будут трястись
@@ -79,11 +86,6 @@ export class ShakeJokeSettings implements JokeSettings {
      * Частота тряски
      */
     interval: number = 100;
-
-    /**
-     * Сила тряски
-     */
-    force: number = 0.5;
 }
 
 export interface ShakeJokeMargin {

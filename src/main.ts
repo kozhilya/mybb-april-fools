@@ -1,4 +1,4 @@
-import { AprilFoolsJokeClass } from "./handler";
+import { JokerClass } from "./joker";
 import { Joke } from "./joke";
 import { ShakeJoke } from "./jokes/shake";
 import { HumanitarianHellJoke } from "./jokes/humanitarian_hell";
@@ -7,9 +7,10 @@ import { CarnivalJoke } from "./jokes/carnival";
 import { CrazyLettersJoke } from "./jokes/crazy_letters";
 import { CrazyPunctuationJoke } from "./jokes/crazy_punctuation";
 import { LetterChaosJoke } from "./jokes/letter_chaos";
+import { CursorEffectsJoke } from "./jokes/cursor"
 
-(window as any).AprilJokes = ((jokes: JokeClassList): AprilFoolsJokeClass => {
-    const cl = new AprilFoolsJokeClass();
+(window as any).AprilJokes = ((jokes: JokeClassList): JokerClass => {
+    const cl = new JokerClass();
 
     jokes.forEach(joke => {
         cl.add(new joke());
@@ -26,6 +27,7 @@ import { LetterChaosJoke } from "./jokes/letter_chaos";
     CrazyLettersJoke,
     CrazyPunctuationJoke,
     LetterChaosJoke,
+    CursorEffectsJoke,
 ]);
 
 interface JokeClassList extends Array<new () => Joke> {}

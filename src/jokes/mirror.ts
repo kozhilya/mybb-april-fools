@@ -22,5 +22,7 @@ export class MirrorJoke extends Joke {
 }
 
 export class MirrorJokeSettings implements JokeSettings {
+    enabled: boolean = false;
+
     chance: number = 30;
 }

@@ -1,6 +1,6 @@
 import { Joke, JokeSettings, StopableJoke } from "../joke";
 import $ from "jquery";
-import { AprilFoolsJokeClass } from "../handler";
+import { JokerClass } from "../joker";
 
 /**
  * **Буквенный хаос**
@@ -18,7 +18,7 @@ export class LetterChaosJoke extends Joke {
 
     private shuffleLetters(word: string): string {
         // Check if the word has two or more letters
-        if ((word.length < 3) || !AprilFoolsJokeClass.check(this.settings.shuffle_chance)) {
+        if ((word.length < 3) || !this.check(this.settings.shuffle_chance)) {
             return word;
         }
 
@@ -48,6 +48,8 @@ export class LetterChaosJoke extends Joke {
 }
 
 export class LetterChaosJokeSettings implements JokeSettings {
+    enabled: boolean = true;
+
     chance: number = 20;
 
     /**
