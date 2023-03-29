@@ -11,6 +11,10 @@ import $ from "jquery";
 export class ShakeJoke extends StopableJoke {
     id = 'shake';
 
+    title = 'Форумо-трясение';
+
+    description = 'Страница форума начинает трястись';
+
     settings = new ShakeJokeSettings;
 
     private interval_id: NodeJS.Timer;
@@ -63,7 +67,7 @@ export class ShakeJoke extends StopableJoke {
 }
 
 export class ShakeJokeSettings implements JokeSettings {
-    enabled: boolean = true;
+    enabled: boolean = false;
 
     chance: number = 1;
 

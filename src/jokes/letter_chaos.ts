@@ -12,6 +12,10 @@ import { JokerClass } from "../joker";
 export class LetterChaosJoke extends Joke {
     id = 'letter_chaos';
 
+    title = 'Буквенный хаос';
+
+    description = 'Все буквы в словах, кроме первой и последней, перемешены.';
+
     settings = new LetterChaosJokeSettings;
 
     punctuationSymbols: string[] | null = null;

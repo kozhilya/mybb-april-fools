@@ -15,6 +15,10 @@ const cursor_effects = require("cursor-effects");
 export class CursorEffectsJoke extends StopableJoke {
     id = 'cursor_effects';
 
+    title = 'Красивый курсор';
+
+    description = 'Эффекты, следующие за курсором';
+
     settings = new CursorEffectsJokeSettings;
 
     active_cursor_effect: any;
@@ -43,7 +47,7 @@ export class CursorEffectsJoke extends StopableJoke {
     }
 
     getRandomEffect(): CursorEffectsEnum {
-        const elements = Object.keys(CursorEffectsEnum).map(e => <CursorEffectsEnum>e);
+        const elements = Object.values(CursorEffectsEnum).map(e => <CursorEffectsEnum>e);
         const totalWeight = elements.reduce((sum, element) => sum + this.weight(element), 0);
         const randomWeight = Math.random() * totalWeight;
         

@@ -10,6 +10,10 @@ import $ from "jquery";
  */
 export class MirrorJoke extends Joke {
     id = 'mirror';
+
+    title = 'Зеркало';
+
+    description = 'Элементы форума отражаются (по крайней мере, пытаются)';
     
     settings = new MirrorJokeSettings;
 

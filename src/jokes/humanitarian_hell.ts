@@ -10,6 +10,10 @@ import $ from "jquery";
  */
 export class HumanitarianHellJoke extends Joke {
     id = 'humanitarian_hell';
+
+    title = 'Ад гуманитария';
+
+    description = 'Все "тся" заменяются на "ться", а все "ться" на "тся"';
     
     settings = new HumanitarianHellJokeSettings;
 

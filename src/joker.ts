@@ -1,4 +1,6 @@
-import { Joke, JokeSettings } from "./joke";
+import { stat } from "fs";
+import { Joke, JokeSettings, StopableJoke } from "./joke";
+import { JokerUI } from "./ui";
 
 /**
  * Блок обработки перво-апрельских шуток
@@ -6,6 +8,8 @@ import { Joke, JokeSettings } from "./joke";
  * @author Kozhilya
  */
 export class JokerClass {
+    ui: JokerUI = new JokerUI(this);
+
     /**
      * Проверка вероятности
      * 
@@ -32,9 +36,13 @@ export class JokerClass {
      * @param handler Метод, выполняющий шутку
      * @param settings Объект настроек шутки
      */
-    addCustom(id: string, handler: Function, settings: JokeSettings|null = null) {
+    addCustom(id: string, handler: Function, settings: JokeSettings|null = null): Joke {
         const joke = new class extends Joke {
             id = id;
+
+            title = 'Пользовательская шутка';
+
+            description = 'Для шутки не определено описание';
 
             settings: JokeSettings = { chance: 10, enabled: true };
 
@@ -46,6 +54,8 @@ export class JokerClass {
         Object.assign(joke.settings, settings ?? {});
 
         this.add(joke);
+
+        return joke;
     }
 
     /**
@@ -114,6 +124,74 @@ export class JokerClass {
     }
 
     /**
+     * Переключение шутки
+     */
+    toggleJoke(joke_id: string, state: boolean) {
+        const joke = this.jokes[joke_id];
+        joke.settings.enabled = state;
+
+        if (joke instanceof StopableJoke && !state) {
+            joke.stop();
+        }
+
+        this.saveUserStates();
+    }
+
+    /**
+     * Сохранение пользовательских настроек
+     */
+    saveUserStates() {
+        const states: any = {};
+        
+        for (const key of Object.keys(this.jokes)) {
+            states[key] = this.jokes[key].settings.enabled;
+        }
+
+        fetch('/api.php?' + $.param({
+            method: 'storage.set',
+            user_id: (<any> window).UserID,
+            key: 'april-fools',
+            token: (<any> window).ForumAPITicket,
+            value: JSON.stringify(states),
+            timer: 24 * 60
+        }));
+    }
+
+    /**
+     * Загрузка пользовательских настроек
+     */
+    async loadUserStates() {
+        const response = await fetch('/api.php?' + $.param({
+            method: 'storage.get',
+            user_id: (<any> window).UserID,
+            key: 'april-fools',
+        }));
+        const json = await response.json();
+
+        if (json.error) {
+            return;
+        }
+
+        const data = JSON.parse(json.response.storage.data['april-fools']);
+
+        for (const key of Object.keys(this.jokes)) {
+            this.jokes[key].settings.enabled = data[key];
+        }
+    }
+
+    async clearUserStates() {
+        await fetch('/api.php?' + $.param({
+            method: 'storage.delete',
+            user_id: (<any> window).UserID,
+            key: 'april-fools',
+            token: (<any> window).ForumAPITicket,
+        }));
+
+        return;
+    }
+
+
+    /**
      * Запуск шутки
      * 
      * @param id
@@ -141,15 +219,33 @@ export class JokerClass {
         }
     }
 
-    regularStart(): void {
+    regularCheck(): boolean {
+        if (!this.core_settings.enabled) {
+            return false;
+        }
+
+        if (this.core_settings.testers.indexOf((<any> window).UserID) >= 0) {
+            return true;
+        }
+
         const today = new Date();
-        const month = today.getMonth() + 1; // Note that getMonth() returns 0-indexed month, so we need to add 1
+        const month = today.getMonth() + 1;
         const day = today.getDate();
 
-        if (month !== 4 || day !== 1 || !this.core_settings.enabled || !this.check(this.core_settings.chance)) {
+        if (month !== 4 || day !== 1) {
+            return false;
+        }
+
+        return this.check(this.core_settings.chance);
+    }
+
+    async regularStart() {
+        if (!this.regularCheck()) {
             return;
         }
 
+        await this.loadUserStates();
+        this.ui.show();
         this.startAll();
     }
 
@@ -181,4 +277,6 @@ interface SettingsMap {
 class CoreSettings implements JokeSettings {
     chance = 100;
     enabled = true;
+
+    testers: number[] = [];
 }

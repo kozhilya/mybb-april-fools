@@ -16,7 +16,7 @@ window.AprilJokes.settings = {
         enabled: false,
         chance: 30,
     },
-    
+
     carnival: {
         enabled: true,
         chance: 30,
@@ -125,6 +125,36 @@ window.AprilJokes.settings = {
                 minutesColor: string = "black",
                 hoursColor: string = "black",
             },
+        },
+    },
+
+    stupid_title: {
+        enabled: true,
+        chance: 20,
+        gender_resolver: null,
+        rude: false,
+        change_frequency: 5,
+        schemas: {
+            '{adj} {noun}{p}': 10,
+            '{noun} {adj}{p}': 3,
+            '{adj}, {adj} {noun}{p}': 10,
+            '{adj} и очень {adj} {noun}{p}': 10,
+            '{adj} {noun} {verb}{p}': 10,
+            '{adj} {noun} {adv} {verb}{p}': 5,
+            '{adj} {noun} {verb} {place}{p}': 5,
+            '{adj} {noun} {adv} {verb} {place}{p}': 5,
+        },
+        variants: {
+            adj: {
+                ...window.AprilJokes.settings.stupid_title.variants.adj,
+                ...BuildStupdiTitleVariant(true, 'скромный, шутливый, !грубый'),
+                ...BuildStupdiTitleVariant(false, 'скромная, шутливая, !грубая'),
+            },
+            noun: { ...window.AprilJokes.settings.stupid_title.variants.noun, },
+            verb: { ...window.AprilJokes.settings.stupid_title.variants.verb, },
+            place: { ...window.AprilJokes.settings.stupid_title.variants.place, },
+            adv: { ...window.AprilJokes.settings.stupid_title.variants.adv, },
+            p: { ...window.AprilJokes.settings.stupid_title.variants.p, },
         },
     },
 }

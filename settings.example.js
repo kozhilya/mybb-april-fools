@@ -37,7 +37,7 @@ window.AprilJokes.settings = {
      * @author Kozhilya
      */
     shake: {
-        enabled: true,
+        enabled: false,
         chance: 1,
 
         /**
@@ -377,6 +377,76 @@ window.AprilJokes.settings = {
                  */
                 hoursColor: string = "black",
             },
+        },
+    },
+
+    /**
+     * **Глупые статусы**
+     * 
+     * Каждому пользователю даётся новый глупый статус.
+     * 
+     * @author Kozhilya
+     */
+    stupid_title: {
+        enabled: true,
+        chance: 20,
+
+        /**
+         * Определение пола по имени.
+         * По умолчанию род устанавливается случайным образом
+         * 
+         * Если установлено значение `null`, система попытается загрузить пол, установленный в настройках аккаунта. Если этот пол определить невозможно, то он будет выбран случайно. Эта настройка позволяет изменить это поведение, если ваш форум обладает ролевой системой, в которой пол определяется иным образом.
+         * 
+         * @param name Имя персонажа
+         * @returns true, если мужской род; false, если женский род
+         */
+        gender_resolver: null,
+
+        /**
+         * Разрешить возможно оскорбительные слова
+         */
+        rude: false,
+
+        /**
+         * Частота смены статусов (в минутах)
+         */
+        change_frequency: 5,
+
+        /**
+         * Разрешённые схемы формирования статусов
+         * 
+         * {adj} - прилагательное
+         * {noun} - имя существительно
+         * {verb} - глагол
+         * {adv} - наречие
+         * {p} - знак препинания
+         */
+        schemas: {
+            '{adj} {noun}{p}': 10,
+            '{noun} {adj}{p}': 3,
+            '{adj}, {adj} {noun}{p}': 10,
+            '{adj} и очень {adj} {noun}{p}': 10,                
+            '{adj} {noun} {verb}{p}': 10,
+            '{adj} {noun} {adv} {verb}{p}': 5,
+            '{adj} {noun} {verb} {place}{p}': 5,
+            '{adj} {noun} {adv} {verb} {place}{p}': 5,
+        },
+
+        /**
+         * Вариант слов.
+         * Смотрите раздел описания скрипта, что бы настроить это поле
+         */
+        variants: {
+            adj: {
+                ...window.AprilJokes.settings.stupid_title.variants.adj,
+                ...BuildStupdiTitleVariant(true, 'скромный, шутливый, !грубый'),
+                ...BuildStupdiTitleVariant(false, 'скромная, шутливая, !грубая'),
+            },
+            noun: { ...window.AprilJokes.settings.stupid_title.variants.noun, },
+            verb: { ...window.AprilJokes.settings.stupid_title.variants.verb, },
+            place: { ...window.AprilJokes.settings.stupid_title.variants.place, },
+            adv: { ...window.AprilJokes.settings.stupid_title.variants.adv, },
+            p: { ...window.AprilJokes.settings.stupid_title.variants.p, },
         },
     },
 }

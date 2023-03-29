@@ -10,7 +10,11 @@ import { JokerClass } from "../joker";
  * @author Kozhilya
  */
 export class CarnivalJoke extends Joke {
-    id = 'carnival'
+    id = 'carnival';
+
+    title = 'Карнавал';
+
+    description = 'Аватарки приобретают интересные цвета';
 
     settings = new CarnivalJokeSettings;
     

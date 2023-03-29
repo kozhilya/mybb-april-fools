@@ -23,6 +23,16 @@ export abstract class Joke {
     abstract id: string;
 
     /**
+     * Заголовок шутки
+     */
+    abstract title: string;
+
+    /**
+     * Описание шутки
+     */
+    abstract description: string;
+
+    /**
      * Настройки шутки
      */
     settings: JokeSettings;

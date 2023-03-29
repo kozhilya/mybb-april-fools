@@ -11,6 +11,10 @@ import $ from "jquery";
 export class CrazyLettersJoke extends Joke {
     id = 'crazy_letters';
 
+    title = 'Мама, Я сОшЛа С уМа!';
+
+    description = 'иМеНа ЗаБоРчИкОм';
+
     settings = new CrazyLettersJokeSettings;
 
     start(): void {
