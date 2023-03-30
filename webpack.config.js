@@ -2,8 +2,9 @@
 
 const path = require("path");
 const webpack = require("webpack");
-const BomPlugin = require('webpack-utf8-bom');
-const { exec } = require('node:child_process');
+const BomPlugin = require("webpack-utf8-bom");
+const { exec } = require("node:child_process");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -11,21 +12,21 @@ const config = {
   entry: "./src/main.ts",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: () => ('april-fools' + (isProduction ? '.min' : '') + '.js'),
+    filename: () => "april-fools" + (isProduction ? ".min" : "") + ".js",
   },
   plugins: [
     new BomPlugin(true),
     {
       apply: (compiler) => {
-        compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
-          exec('./upload.sh', (err, stdout, stderr) => {
+        compiler.hooks.afterEmit.tap("AfterEmitPlugin", (compilation) => {
+          exec("./upload.sh", (err, stdout, stderr) => {
             if (stdout) process.stdout.write(stdout);
             if (stderr) process.stderr.write(stderr);
             console.log("Uploaded.");
           });
         });
-      }
-    }
+      },
+    },
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],
@@ -52,10 +53,19 @@ const config = {
     extensions: [".tsx", ".ts", ".jsx", ".js", "..."],
   },
   externals: {
-    jquery: 'jQuery',
+    jquery: "jQuery",
   },
   watchOptions: {
     aggregateTimeout: 20,
+  },
+  optimization: {
+    minimize: isProduction,
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        compress: true,
+      },
+      minify: TerserPlugin.uglifyJsMinify,
+    })],
   },
 };
 

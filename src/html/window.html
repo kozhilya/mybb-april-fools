@@ -1,15 +1,23 @@
 <div class="april-fools__content">
-    <div class="april-fools__jokes"></div>
+  <div class="april-fools__jokes"></div>
 
-    <button class="april-fools__reset-button">Вернуться к настройкам форума (страница будет перезагружена!)</button>
+  <button class="april-fools__reset-button">
+    Вернуться к настройкам форума (страница будет перезагружена!)
+  </button>
 </div>
 <template class="april-fools__template" id="april-fools__window-row">
-    <div class="april-fools__joke-row">
-        <input type="checkbox" class="april-fools__joke-input" name="april-fools__joke-${joke.id}" id="april-fools__joke-${joke.id}" style="display: none;" />
-        <label class="april-fools__joke" for="april-fools__joke-${joke.id}">
-            <p class="april-fools__joke-title">${joke.title}</p>
-            <p class="april-fools__joke-description">${joke.description}</p>
-            <p class="april-fools__joke-chance">${joke.settings.chance}%</p>
-        </label>
-    </div>
+  <div class="april-fools__joke-row">
+    <input
+      type="checkbox"
+      class="april-fools__joke-input"
+      name="april-fools__joke-${joke.id}"
+      id="april-fools__joke-${joke.id}"
+      style="display: none"
+    />
+    <label class="april-fools__joke" for="april-fools__joke-${joke.id}">
+      <p class="april-fools__joke-title">${joke.title}</p>
+      <p class="april-fools__joke-description">${joke.description}</p>
+      <p class="april-fools__joke-chance">${joke.settings.chance}%</p>
+    </label>
+  </div>
 </template>

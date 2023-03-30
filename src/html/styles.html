@@ -1,5 +1,5 @@
 <style class="april-fools__styles">
-.april-fools__button {
+  .april-fools__button {
     position: fixed;
     bottom: 0.2rem;
     right: 0.2rem;
@@ -10,17 +10,17 @@
     opacity: 0.3;
     transition: 0.4s all;
     cursor: pointer;
-}
-.april-fools__button:hover {
+  }
+  .april-fools__button:hover {
     opacity: 1;
-}
-.april-fools__joke-row {
+  }
+  .april-fools__joke-row {
     border-bottom: 1px solid black;
-}
-.april-fools__joke-row:first-of-type {
+  }
+  .april-fools__joke-row:first-of-type {
     border-top: 1px solid black;
-}
-.april-fools__joke {
+  }
+  .april-fools__joke {
     display: flex;
     flex-flow: row wrap;
     padding: 10px;
@@ -29,38 +29,38 @@
     align-items: center;
     gap: 1ch;
     cursor: pointer;
-}
-.april-fools__joke:hover {
+  }
+  .april-fools__joke:hover {
     text-shadow: 0 0 black;
-}
-.april-fools__joke:before {
+  }
+  .april-fools__joke:before {
     display: block;
     content: "";
     flex: 0 0 2ch;
     text-align: center;
     content: "✔";
     opacity: 0;
-}
-input.april-fools__joke-input:checked + .april-fools__joke {
+  }
+  input.april-fools__joke-input:checked + .april-fools__joke {
     opacity: 1;
-}
-input.april-fools__joke-input:checked + .april-fools__joke:before {
+  }
+  input.april-fools__joke-input:checked + .april-fools__joke:before {
     opacity: 1;
-}
-.april-fools__joke .april-fools__joke-title {
+  }
+  .april-fools__joke .april-fools__joke-title {
     flex: 1 auto;
     font-weight: bold;
-}
-.april-fools__joke .april-fools__joke-description {
+  }
+  .april-fools__joke .april-fools__joke-description {
     flex: 1 auto;
     text-align: right;
-}
-.april-fools__joke .april-fools__joke-chance {
+  }
+  .april-fools__joke .april-fools__joke-chance {
     flex: 0 0 4ch;
     text-align: right;
-}
-.april-fools__content .april-fools__reset-button {
+  }
+  .april-fools__content .april-fools__reset-button {
     display: block;
     margin: 10px auto;
-}
+  }
 </style>

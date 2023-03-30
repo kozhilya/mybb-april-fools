@@ -10,24 +10,24 @@ import { CursorEffectsJoke } from "./jokes/cursor";
 import { StupidTitleJoke } from "./jokes/stupid_title";
 
 (window as any).AprilJokes = ((jokes: JokeClassList): JokerClass => {
-    const cl = new JokerClass();
+  const cl = new JokerClass();
 
-    jokes.forEach(joke => {
-        cl.add(new joke());
-    });
+  jokes.forEach((joke) => {
+    cl.add(new joke());
+  });
 
-    $(() => cl.regularStart());
+  $(() => cl.regularStart());
 
-    return cl;
+  return cl;
 })([
-    ShakeJoke,
-    HumanitarianHellJoke,
-    MirrorJoke,
-    CarnivalJoke,
-    CrazyLettersJoke,
-    LetterChaosJoke,
-    CursorEffectsJoke,
-    StupidTitleJoke,
+  ShakeJoke,
+  HumanitarianHellJoke,
+  MirrorJoke,
+  CarnivalJoke,
+  CrazyLettersJoke,
+  LetterChaosJoke,
+  CursorEffectsJoke,
+  StupidTitleJoke,
 ]);
 
 interface JokeClassList extends Array<new () => Joke> {}

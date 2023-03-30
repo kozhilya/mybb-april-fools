@@ -3,95 +3,95 @@ import $ from "jquery";
 
 /**
  * **Форумо-трясение**
- * 
+ *
  * Страница форума начинает трястись
- * 
+ *
  * @author Kozhilya
  */
 export class ShakeJoke extends StopableJoke {
-    id = 'shake';
+  id = "shake";
 
-    title = 'Форумо-трясение';
+  title = "Форумо-трясение";
 
-    description = 'Страница форума начинает трястись';
+  description = "Страница форума начинает трястись";
 
-    settings = new ShakeJokeSettings;
+  settings = new ShakeJokeSettings();
 
-    private interval_id: NodeJS.Timer;
+  private interval_id: NodeJS.Timer;
 
-    private items: JQuery;
+  private items: JQuery;
 
-    private data_name: string = 'april-fools-shake';
+  private data_name: string = "april-fools-shake";
 
-    rand(a: number): number {
-        return a + this.settings.force * (Math.random() * 2 - 1);
-    }
+  rand(a: number): number {
+    return a + this.settings.force * (Math.random() * 2 - 1);
+  }
 
-    start(): void {
-        this.items = $(this.settings.selector);
+  start(): void {
+    this.items = $(this.settings.selector);
 
-        this.items.each((_, elem) => {
-            let data: ShakeJokeMargin = {};
+    this.items.each((_, elem) => {
+      let data: ShakeJokeMargin = {};
 
-            this.settings.directions.forEach(d => {
-                data[d] = parseInt($(elem).css('margin-' + d));
-            });
+      this.settings.directions.forEach((d) => {
+        data[d] = parseInt($(elem).css("margin-" + d));
+      });
 
-            $(elem).data(this.data_name, data);
-        });
+      $(elem).data(this.data_name, data);
+    });
 
-        this.interval_id = setInterval(() => {
-            this.items.each((_, elem) => {
-                const data: ShakeJokeMargin = $(elem).data(this.data_name);
+    this.interval_id = setInterval(() => {
+      this.items.each((_, elem) => {
+        const data: ShakeJokeMargin = $(elem).data(this.data_name);
 
-                for (const entry of Object.entries(data)) {
-                    $(elem).css('margin-' + entry[0], this.rand(entry[1]))
-                }
-            });
-        }, this.settings.interval);
-    }
+        for (const entry of Object.entries(data)) {
+          $(elem).css("margin-" + entry[0], this.rand(entry[1]));
+        }
+      });
+    }, this.settings.interval);
+  }
 
-    stop(): void {
-        clearInterval(this.interval_id);
-        
-        this.items.each((_, elem) => {
-            let data: ShakeJokeMargin = {};
+  stop(): void {
+    clearInterval(this.interval_id);
 
-            this.settings.directions.forEach(d => {
-                $(elem).css('margin-' + d, data[d]);
-            });
+    this.items.each((_, elem) => {
+      let data: ShakeJokeMargin = {};
 
-            $(elem).data(this.data_name, data);
-        });
-    }
+      this.settings.directions.forEach((d) => {
+        $(elem).css("margin-" + d, data[d]);
+      });
+
+      $(elem).data(this.data_name, data);
+    });
+  }
 }
 
 export class ShakeJokeSettings implements JokeSettings {
-    enabled: boolean = false;
+  enabled: boolean = false;
 
-    chance: number = 1;
+  chance: number = 1;
 
-    /**
-     * Направление тряски (тряска происходит путём изменения перечисленных направлений margin на значение ±force от стандартного значения)
-     */
-    directions: string[] = ['top', 'left', 'bottom', 'left'];
+  /**
+   * Направление тряски (тряска происходит путём изменения перечисленных направлений margin на значение ±force от стандартного значения)
+   */
+  directions: string[] = ["top", "left", "bottom", "left"];
 
-    /**
-     * Сила тряски - насколько отклоняется элемент от стандартного значения
-     */
-    force: number = 0.5;
+  /**
+   * Сила тряски - насколько отклоняется элемент от стандартного значения
+   */
+  force: number = 0.5;
 
-    /**
-     * Селектор всех элементов, которые будут трястись
-     */
-    selector: string = '[id^=pun]';
+  /**
+   * Селектор всех элементов, которые будут трястись
+   */
+  selector: string = "[id^=pun]";
 
-    /**
-     * Частота тряски
-     */
-    interval: number = 100;
+  /**
+   * Частота тряски
+   */
+  interval: number = 100;
 }
 
 export interface ShakeJokeMargin {
-    [key: string]: number;
+  [key: string]: number;
 }

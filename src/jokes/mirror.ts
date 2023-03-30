@@ -3,30 +3,34 @@ import $ from "jquery";
 
 /**
  * **Зеркало**
- * 
+ *
  * Элементы форума отражаются (по крайней мере, пытаются)
- * 
+ *
  * @author Kozhilya
  */
 export class MirrorJoke extends Joke {
-    id = 'mirror';
+  id = "mirror";
 
-    title = 'Зеркало';
+  title = "Зеркало";
 
-    description = 'Элементы форума отражаются (по крайней мере, пытаются)';
-    
-    settings = new MirrorJokeSettings;
+  description = "Элементы форума отражаются (по крайней мере, пытаются)";
 
-    start(): void {
-        $('.post, .post h3, .post-links, .post-author, .post-content')
-            .css('transform', 'scaleX(-1)').css('-moz-transform', 'scaleX(-1)').css('-moz-transform', 'scaleX(-1)').css('filter', 'FlipH').css('-ms-filter', '"FlipH"');
-        $('.post-links, .post-links ul, .post h3 span').css('margin-left', '0');
-        $('.post h3 span').css('margin-right', '25em');
-    }
+  settings = new MirrorJokeSettings();
+
+  start(): void {
+    $(".post, .post h3, .post-links, .post-author, .post-content")
+      .css("transform", "scaleX(-1)")
+      .css("-moz-transform", "scaleX(-1)")
+      .css("-moz-transform", "scaleX(-1)")
+      .css("filter", "FlipH")
+      .css("-ms-filter", '"FlipH"');
+    $(".post-links, .post-links ul, .post h3 span").css("margin-left", "0");
+    $(".post h3 span").css("margin-right", "25em");
+  }
 }
 
 export class MirrorJokeSettings implements JokeSettings {
-    enabled: boolean = false;
+  enabled: boolean = false;
 
-    chance: number = 30;
+  chance: number = 30;
 }
