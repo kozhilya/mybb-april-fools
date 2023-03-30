@@ -218,6 +218,8 @@ window.AprilJokes.settings = {
 
     // Стандартные настройки
     {
+      title: 'Название шутки',
+      description: 'Описание шутки',
       enabled: true,
       chance: 30,
       text: "Fooled!",
