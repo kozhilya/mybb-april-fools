@@ -1,22 +1,22 @@
 /**
  * Объект настроек шутки
  */
-export interface JokeSettings {
+export class JokeSettings {
   /**
    * Флаг блокировки срабатывания
    */
-  enabled: boolean;
+  enabled: boolean = true;
 
   /**
    * Вероятность срабатывания в процентах
    */
-  chance: number;
+  chance: number = 20;
 }
 
 /**
  * Объект, описывающий шутку
  */
-export abstract class Joke {
+export abstract class Joke<T extends JokeSettings> {
   /**
    * Идентификатор шутки
    */
@@ -35,7 +35,40 @@ export abstract class Joke {
   /**
    * Настройки шутки
    */
-  settings: JokeSettings;
+  _settings: T;
+
+  /**
+   * Получение полного списка настроек
+   */
+  get settings(): T {
+    return this._settings;
+  }
+
+  /**
+   * Запись новых настроек
+   *
+   * @param settings
+   */
+  set settings(settings: T) {
+    for (const entry of Object.entries(settings)) {
+      const id = entry[0];
+      const value = entry[1];
+
+      switch (id) {
+        case "name":
+        case "title":
+          this.title = value;
+          break;
+
+        case "description":
+          this.description = value;
+          break;
+
+        default:
+          (<any>this._settings)[id] = value;
+      }
+    }
+  }
 
   /**
    * Проверка вероятности
@@ -78,7 +111,7 @@ export abstract class Joke {
 /**
  * Объект, описывающий шутку, которая может быть остановлена
  */
-export abstract class StopableJoke extends Joke {
+export abstract class StopableJoke<T extends JokeSettings> extends Joke<T> {
   /**
    * Остановка шутки, если возможно
    */

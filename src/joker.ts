@@ -25,7 +25,7 @@ export class JokerClass {
    *
    * @param joke Объект шутки
    */
-  add(joke: Joke): void {
+  add(joke: Joke<any>): void {
     this.jokes[joke.id] = joke;
   }
 
@@ -40,22 +40,22 @@ export class JokerClass {
     id: string,
     handler: Function,
     settings: JokeSettings | null = null
-  ): Joke {
-    const joke = new (class extends Joke {
+  ): Joke<JokeSettings> {
+    const joke = new (class extends Joke<JokeSettings> {
       id = id;
 
       title = "Пользовательская шутка";
 
       description = "Для шутки не определено описание";
 
-      settings: JokeSettings = { chance: 10, enabled: true };
+      _settings = new JokeSettings();
 
       start() {
         handler.call(this, this.settings);
       }
     })();
 
-    Object.assign(joke.settings, settings ?? {});
+    joke.settings = settings;
 
     this.add(joke);
 
@@ -279,7 +279,7 @@ export class JokerClass {
  * Объект хранения шуток
  */
 interface JokeMap {
-  [key: string]: Joke;
+  [key: string]: Joke<any>;
 }
 
 /**

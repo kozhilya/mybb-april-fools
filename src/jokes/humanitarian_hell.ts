@@ -9,14 +9,14 @@ import $ from "jquery";
  *
  * @author Kozhilya
  */
-export class HumanitarianHellJoke extends Joke {
+export class HumanitarianHellJoke extends Joke<HumanitarianHellJokeSettings> {
   id = "humanitarian_hell";
 
   title = "Ад гуманитария";
 
   description = 'Все "тся" заменяются на "ться", а все "ться" на "тся"';
 
-  settings = new HumanitarianHellJokeSettings();
+  _settings = new HumanitarianHellJokeSettings();
 
   processText(text: string): string {
     return text.replace(/(ть?ся)/g, function (fnd) {

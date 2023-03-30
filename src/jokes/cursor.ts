@@ -12,14 +12,14 @@ const cursor_effects = require("cursor-effects");
  * @author Tim Holman
  * @link https://tholman.com/cursor-effects/
  */
-export class CursorEffectsJoke extends StopableJoke {
+export class CursorEffectsJoke extends StopableJoke<CursorEffectsJokeSettings> {
   id = "cursor_effects";
 
   title = "Красивый курсор";
 
   description = "Эффекты, следующие за курсором";
 
-  settings = new CursorEffectsJokeSettings();
+  _settings = new CursorEffectsJokeSettings();
 
   active_cursor_effect: any;
 

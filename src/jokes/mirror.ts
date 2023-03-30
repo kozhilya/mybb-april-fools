@@ -8,14 +8,14 @@ import $ from "jquery";
  *
  * @author Kozhilya
  */
-export class MirrorJoke extends Joke {
+export class MirrorJoke extends Joke<MirrorJokeSettings> {
   id = "mirror";
 
   title = "Зеркало";
 
   description = "Элементы форума отражаются (по крайней мере, пытаются)";
 
-  settings = new MirrorJokeSettings();
+  _settings = new MirrorJokeSettings();
 
   start(): void {
     $(".post, .post h3, .post-links, .post-author, .post-content")

@@ -9,14 +9,14 @@ import { StupidTitleDefaultVariants } from "../data/stupid_title_variants";
  *
  * @author Kozhilya
  */
-export class StupidTitleJoke extends Joke {
+export class StupidTitleJoke extends Joke<StupidTitleJokeSettings> {
   id = "stupid_title";
 
   title = "Глупые статусы";
 
   description = "Каждому пользователю даётся новый глупый статус";
 
-  settings = new StupidTitleJokeSettings();
+  _settings = new StupidTitleJokeSettings();
 
   private loadedGenders: any = null;
 

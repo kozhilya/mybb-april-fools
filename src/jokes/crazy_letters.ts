@@ -8,14 +8,14 @@ import $ from "jquery";
  *
  * @author Kozhilya
  */
-export class CrazyLettersJoke extends Joke {
+export class CrazyLettersJoke extends Joke<CrazyLettersJokeSettings> {
   id = "crazy_letters";
 
   title = "Мама, Я сОшЛа С уМа!";
 
   description = "иМеНа ЗаБоРчИкОм";
 
-  settings = new CrazyLettersJokeSettings();
+  _settings = new CrazyLettersJokeSettings();
 
   start(): void {
     $(this.settings.selector).each((_, elem) => {

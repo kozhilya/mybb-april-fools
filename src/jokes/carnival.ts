@@ -9,14 +9,14 @@ import { JokerClass } from "../joker";
  *
  * @author Kozhilya
  */
-export class CarnivalJoke extends Joke {
+export class CarnivalJoke extends Joke<CarnivalJokeSettings> {
   id = "carnival";
 
   title = "Карнавал";
 
   description = "Аватарки приобретают интересные цвета";
 
-  settings = new CarnivalJokeSettings();
+  _settings = new CarnivalJokeSettings();
 
   start(): void {
     $(this.settings.selector).each((_, elem) => {

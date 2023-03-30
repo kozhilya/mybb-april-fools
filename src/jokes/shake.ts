@@ -8,14 +8,14 @@ import $ from "jquery";
  *
  * @author Kozhilya
  */
-export class ShakeJoke extends StopableJoke {
+export class ShakeJoke extends StopableJoke<ShakeJokeSettings> {
   id = "shake";
 
   title = "Форумо-трясение";
 
   description = "Страница форума начинает трястись";
 
-  settings = new ShakeJokeSettings();
+  _settings = new ShakeJokeSettings();
 
   private interval_id: NodeJS.Timer;
 

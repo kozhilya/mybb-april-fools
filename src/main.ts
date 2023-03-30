@@ -30,4 +30,4 @@ import { StupidTitleJoke } from "./jokes/stupid_title";
   StupidTitleJoke,
 ]);
 
-interface JokeClassList extends Array<new () => Joke> {}
+interface JokeClassList extends Array<new () => Joke<any>> {}

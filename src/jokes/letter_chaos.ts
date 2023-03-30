@@ -10,14 +10,14 @@ import { JokerClass } from "../joker";
  *
  * @author Kozhilya
  */
-export class LetterChaosJoke extends Joke {
+export class LetterChaosJoke extends Joke<LetterChaosJokeSettings> {
   id = "letter_chaos";
 
   title = "Буквенный хаос";
 
   description = "Все буквы в словах, кроме первой и последней, перемешены";
-
-  settings = new LetterChaosJokeSettings();
+  
+  _settings = new LetterChaosJokeSettings();
 
   punctuationSymbols: string[] | null = null;
 
@@ -51,7 +51,7 @@ export class LetterChaosJoke extends Joke {
   private processNode(node: any) {
     node.textContent = node.textContent?.replace(
       /([А-Яа-яA-Za-z]+)/gm,
-      this.shuffleLetters
+      (_: any, word: string) => this.shuffleLetters(word)
     );
   }
 
