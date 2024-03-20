@@ -19,6 +19,8 @@
     "@types/node": "^18.15.10",
     "@webpack-cli/generators": "^3.0.1",
     "babelify": "^10.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-google": "^0.14.0",
     "grunt": "^1.6.1",
     "grunt-browserify": "^6.0.0",
     "grunt-contrib-uglify": "^5.2.2",
