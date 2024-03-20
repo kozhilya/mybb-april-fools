@@ -1,4 +1,14 @@
 {
+  "version": "1.0.0",
+  "name": "mybb-april-fools",
+  "description": "Система первоапрельских розыгрышей для форумов MyBB",
+  "homepage": "https://forumd.ru/viewtopic.php?id=7372",
+  "author": {
+    "name": "kozhilya",
+    "url": "https://forumd.ru/viewtopic.php?id=6412"
+  },
+  "repository": "github:kozhilya/mybb-april-fools",
+  "license": "https://forumd.ru/viewtopic.php?id=5751#rule",
   "devDependencies": {
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.21.3",
@@ -19,7 +29,7 @@
     "markdown-it": "^13.0.1",
     "markdown-it-container": "^3.0.0",
     "prettier": "^2.8.2",
-    "terser-webpack-plugin": "^5.3.7",
+    "terser-webpack-plugin": "^5.3.10",
     "ts-loader": "^9.4.2",
     "tsify": "^5.0.4",
     "typescript": "^5.0.2",
@@ -37,8 +47,5 @@
     "cursor-effects": "^1.0.11",
     "jquery": "^3.6.4",
     "webpack-utf8-bom": "^1.4.0"
-  },
-  "version": "1.0.0",
-  "description": "Mybb April Fools",
-  "name": "mybb-april-fools"
+  }
 }

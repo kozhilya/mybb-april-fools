@@ -1,10 +1,8 @@
-// Generated using webpack-cli https://github.com/webpack/webpack-cli
-
 const path = require("path");
 const webpack = require("webpack");
 const BomPlugin = require("webpack-utf8-bom");
-const { exec } = require("node:child_process");
 const TerserPlugin = require("terser-webpack-plugin");
+const { libBanner } = require("./webpack.banner");
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -16,19 +14,8 @@ const config = {
   },
   plugins: [
     new BomPlugin(true),
-    {
-      apply: (compiler) => {
-        compiler.hooks.afterEmit.tap("AfterEmitPlugin", (compilation) => {
-          exec("./upload.sh", (err, stdout, stderr) => {
-            if (stdout) process.stdout.write(stdout);
-            if (stderr) process.stderr.write(stderr);
-            console.log("Uploaded.");
-          });
-        });
-      },
-    },
-    // Add your plugins here
-    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    libBanner,
+    libUpload,
   ],
   module: {
     rules: [
@@ -45,8 +32,6 @@ const config = {
         test: /\.html$/i,
         loader: "html-loader",
       },
-      // Add your rules for custom modules here
-      // Learn more about loaders from https://webpack.js.org/loaders/
     ],
   },
   resolve: {
@@ -64,6 +49,7 @@ const config = {
       terserOptions: {
         compress: true,
       },
+      extractComments: false,
       minify: TerserPlugin.uglifyJsMinify,
     })],
   },
@@ -77,19 +63,3 @@ module.exports = () => {
   }
   return config;
 };
-
-/*
-{
-  "compilerOptions": {
-    "module": "AMD",
-    "lib": ["es2017", "dom"],
-    "rootDir": "./src/",
-    "outFile": "dist/april-fools.js",
-    "moduleResolution": "nodenext",
-    "esModuleInterop": true
-  },
-  "files": [
-    "src/main.ts"
-  ]
-}
-*/
