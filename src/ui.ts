@@ -1,7 +1,5 @@
-// / <reference path="html.d.ts"/>
-
-import './types/html.d.ts';
-import './types/mybb.d.ts';
+import './types/html.d';
+import './types/mybb.d';
 
 import {JokerClass} from './joker';
 import $ from 'jquery';

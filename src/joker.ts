@@ -1,6 +1,7 @@
-import './types/mybb.d.ts';
+import './types/mybb.d';
 import {Joke, JokeSettings, StoppableJoke} from './joke';
 import {JokerUI} from './ui';
+import {debug} from './common';
 
 /**
  * Блок обработки перво-апрельских шуток
@@ -13,6 +14,7 @@ export class JokerClass {
    * Общие настройки системы
    */
   core_settings = new CoreSettings();
+
   /**
    * Перечисление всех шуток
    */
@@ -235,9 +237,10 @@ export class JokerClass {
 
     if (!forced && (!joke.settings.enabled || !this.check(joke.settings.chance))
     ) {
+      debug(joke.title, '- шутка не включена');
       return;
     }
-
+    debug(joke.title, '- шутка включена');
     joke.start();
   }
 
@@ -297,7 +300,7 @@ type JokeHandler = () => void;
  * Объект хранения шуток
  */
 interface JokeMap {
-  [key: string]: Joke< JokeSettings>;
+  [key: string]: Joke<JokeSettings>;
 }
 
 /**
