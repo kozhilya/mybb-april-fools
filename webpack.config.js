@@ -3,8 +3,9 @@ const webpack = require("webpack");
 const BomPlugin = require("webpack-utf8-bom");
 const TerserPlugin = require("terser-webpack-plugin");
 const { libBanner } = require("./webpack.banner");
+const { libUpload } = require("./webpack.upload");
 
-const isProduction = process.env.NODE_ENV == "production";
+const isProduction = process.env.NODE_ENV === "production";
 
 const config = {
   entry: "./src/main.ts",
@@ -20,9 +21,19 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/i,
+        test: /\.tsx?$/i,
         loader: "ts-loader",
-        exclude: ["/node_modules/"],
+        exclude: /node_modules|\.d\.ts$/,
+        // exclude: ["/node_modules/|.d.ts"],
+        options: {
+          compilerOptions: {
+            noEmit: false,
+          },
+        },
+      },
+      {
+        test: /\.d\.ts$/i,
+        loader: 'ignore-loader'
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,

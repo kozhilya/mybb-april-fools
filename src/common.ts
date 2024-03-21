@@ -23,3 +23,24 @@ export function getTextNodes(
       filter((_, node) => node.nodeType === Node.TEXT_NODE);
 }
 
+let debugEnabled = ((scriptElement) => {
+  if (!(scriptElement instanceof HTMLScriptElement)) {
+    return false;
+  }
+  return !/\.min\.js$/.test(scriptElement.src);
+})(document.currentScript);
+
+/**
+ * Отоброзить отладочное сообщение
+ */
+export function debug(...data: (string|number|object)[]) {
+  if (!debugEnabled) return;
+  console.log(...data);
+}
+
+/**
+ * Включить отладку
+ */
+export function enableDebug() {
+  debugEnabled = true;
+}

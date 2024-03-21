@@ -1,4 +1,9 @@
 {
+  "ignorePatterns": [
+    "node_modules/",
+    "settings.*.js",
+    "webpack.*.js"
+  ],
   "plugins": ["@typescript-eslint"],
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "google"],
   "parser": "@babel/eslint-parser",
