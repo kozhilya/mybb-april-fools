@@ -8,6 +8,7 @@ import {CrazyLettersJoke} from './jokes/crazy_letters';
 import {LetterChaosJoke} from './jokes/letter_chaos';
 import {CursorEffectsJoke} from './jokes/cursor';
 import {StupidTitleJoke} from './jokes/stupid_title';
+import {InvertedScrollJoke} from './jokes/inverted_scroll';
 
 declare global {
   interface Window { AprilJokes: JokerClass; }
@@ -32,6 +33,7 @@ window.AprilJokes = ((jokes: JokeList): JokerClass => {
   LetterChaosJoke,
   CursorEffectsJoke,
   StupidTitleJoke,
+  InvertedScrollJoke,
 ]);
 
 interface JokeList extends Array<new () => Joke<JokeSettings>> {}

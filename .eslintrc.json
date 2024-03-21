@@ -21,6 +21,7 @@
     "indent": "off",
     "no-unused-vars": "off",
     "new-cap": "off",
+    "no-debugger": "off",
     "@typescript-eslint/no-unused-vars": "off"
   }
 }

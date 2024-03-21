@@ -3,6 +3,11 @@ window.AprilJokes.disableAll();
 window.AprilJokes.jokes.cursor.disableAll();
 
 window.AprilJokes.settings = {
+  core: {
+    enabled: true,
+    chance: 100,
+  },
+
   shake: {
     enabled: true,
     chance: 1,
@@ -156,5 +161,10 @@ window.AprilJokes.settings = {
       adv: { ...window.AprilJokes.settings.stupid_title.variants.adv },
       p: { ...window.AprilJokes.settings.stupid_title.variants.p },
     },
+  },
+
+  inverted_scroll: {
+    enabled: true,
+    chance: 10,
   },
 };
