@@ -161,14 +161,14 @@ window.AprilJokes.settings = {
     variants: {
       adj: {
         ...window.AprilJokes.settings.stupid_title.variants.adj,
-        ...BuildStupdiTitleVariant(true, "скромный, шутливый, !грубый"),
-        ...BuildStupdiTitleVariant(false, "скромная, шутливая, !грубая"),
+        ...BuildStupidTitleVariant(true, "скромный, шутливый, !грубый"),
+        ...BuildStupidTitleVariant(false, "скромная, шутливая, !грубая"),
       },
-      noun: { ...window.AprilJokes.settings.stupid_title.variants.noun },
-      verb: { ...window.AprilJokes.settings.stupid_title.variants.verb },
-      place: { ...window.AprilJokes.settings.stupid_title.variants.place },
-      adv: { ...window.AprilJokes.settings.stupid_title.variants.adv },
-      p: { ...window.AprilJokes.settings.stupid_title.variants.p },
+      noun: {...window.AprilJokes.settings.stupid_title.variants.noun},
+      verb: {...window.AprilJokes.settings.stupid_title.variants.verb},
+      place: {...window.AprilJokes.settings.stupid_title.variants.place},
+      adv: {...window.AprilJokes.settings.stupid_title.variants.adv},
+      p: {...window.AprilJokes.settings.stupid_title.variants.p},
     },
     // ...
   },

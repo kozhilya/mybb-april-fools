@@ -47,7 +47,7 @@ export abstract class Joke<T extends JokeSettings> {
   /**
    * Запись новых настроек
    *
-   * @param settings
+   * @param {JokeSettings} settings
    */
   set settings(settings: T) {
     for (const entry of Object.entries(settings)) {
@@ -55,17 +55,18 @@ export abstract class Joke<T extends JokeSettings> {
       const value = entry[1];
 
       switch (id) {
-        case "name":
-        case "title":
+        case 'name':
+        case 'title':
           this.title = value;
           break;
 
-        case "description":
+        case 'description':
           this.description = value;
           break;
 
         default:
-          (<any>this._settings)[id] = value;
+          // eslint-disable-next-line
+          (this._settings as any)[id] = value;
       }
     }
   }
@@ -74,7 +75,7 @@ export abstract class Joke<T extends JokeSettings> {
    * Проверка вероятности
    *
    * @param {number} chance Вероятность срабатывания
-   * @returns {boolean} Флаг срабатывания (true - сработало)
+   * @return {boolean} Флаг срабатывания (true - сработало)
    */
   check(chance: number): boolean {
     return Math.random() < 0.01 * chance;
@@ -96,7 +97,7 @@ export abstract class Joke<T extends JokeSettings> {
 
   /**
    * Переключить блокировку шутки
-   * @param value Новое значение
+   * @param {boolean | null} [value] Новое значение
    */
   toggle(value: boolean | null = null) {
     this.settings.enabled = value === null ? !this.settings.enabled : value;
@@ -111,7 +112,7 @@ export abstract class Joke<T extends JokeSettings> {
 /**
  * Объект, описывающий шутку, которая может быть остановлена
  */
-export abstract class StopableJoke<T extends JokeSettings> extends Joke<T> {
+export abstract class StoppableJoke<T extends JokeSettings> extends Joke<T> {
   /**
    * Остановка шутки, если возможно
    */

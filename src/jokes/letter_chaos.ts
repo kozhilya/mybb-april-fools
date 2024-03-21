@@ -1,7 +1,5 @@
-import { Joke, JokeSettings, StopableJoke } from "../joke";
-import { getTextNodes } from "../common";
-import $ from "jquery";
-import { JokerClass } from "../joker";
+import {Joke, JokeSettings} from '../joke';
+import {getTextNodes} from '../common';
 
 /**
  * **Буквенный хаос**
@@ -11,26 +9,29 @@ import { JokerClass } from "../joker";
  * @author Kozhilya
  */
 export class LetterChaosJoke extends Joke<LetterChaosJokeSettings> {
-  id = "letter_chaos";
+  id = 'letter_chaos';
 
-  title = "Буквенный хаос";
+  title = 'Буквенный хаос';
 
-  description = "Все буквы в словах, кроме первой и последней, перемешены";
-  
+  description = 'Все буквы в словах, кроме первой и последней, перемешены';
+
   _settings = new LetterChaosJokeSettings();
 
   punctuationSymbols: string[] | null = null;
 
+  /**
+   * Перемешивание букв в словах
+   * @param {string} word
+   * @return {string}
+   * @private
+   */
   private shuffleLetters(word: string): string {
-    // Check if the word has two or more letters
     if (word.length < 3 || !this.check(this.settings.shuffle_chance)) {
       return word;
     }
 
-    // Split the word into an array of characters
-    const characters = word.split("");
+    const characters = word.split('');
 
-    // Shuffle the characters between the first and last letters
     const middleCharacters = characters.slice(1, -1);
     for (let i = middleCharacters.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -40,28 +41,38 @@ export class LetterChaosJoke extends Joke<LetterChaosJokeSettings> {
       ];
     }
 
-    // Join the shuffled characters back into a word
     return [
       characters[0],
       ...middleCharacters,
       characters[characters.length - 1],
-    ].join("");
+    ].join('');
   }
 
-  private processNode(node: any) {
+  /**
+   * Обработка текстовой ноды
+   * @param {Text} node
+   * @private
+   */
+  private processNode(node: Text) {
     node.textContent = node.textContent?.replace(
       /([А-Яа-яA-Za-z]+)/gm,
-      (_: any, word: string) => this.shuffleLetters(word)
+      (_: string, word: string) => this.shuffleLetters(word)
     );
   }
 
+  /**
+   * Запуск шутки
+   */
   start(): void {
     const textNodes = getTextNodes(this.settings.selector);
 
-    textNodes.each((_, node) => this.processNode(node));
+    textNodes.each((_, node) => this.processNode(node as Text));
   }
 }
 
+/**
+ * Класс настроек для шутки "Буквенный хаос"
+ */
 export class LetterChaosJokeSettings implements JokeSettings {
   enabled: boolean = true;
 
@@ -70,7 +81,7 @@ export class LetterChaosJokeSettings implements JokeSettings {
   /**
    * Селектор всех элементов, которые будут затронуты
    */
-  selector: string = ".post-content";
+  selector: string = '.post-content';
 
   /**
    * Вероятность того, что буквы будут перемешаны

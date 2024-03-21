@@ -1,5 +1,5 @@
-import { Joke, JokeSettings, StopableJoke } from "../joke";
-import $ from "jquery";
+import {Joke, JokeSettings} from '../joke';
+import $ from 'jquery';
 
 /**
  * **Мама, Я сОшЛа С уМа!**
@@ -9,21 +9,24 @@ import $ from "jquery";
  * @author Kozhilya
  */
 export class CrazyLettersJoke extends Joke<CrazyLettersJokeSettings> {
-  id = "crazy_letters";
+  id = 'crazy_letters';
 
-  title = "Мама, Я сОшЛа С уМа!";
+  title = 'Мама, Я сОшЛа С уМа!';
 
-  description = "иМеНа ЗаБоРчИкОм";
+  description = 'иМеНа ЗаБоРчИкОм';
 
   _settings = new CrazyLettersJokeSettings();
 
+  /**
+   * Запуск шутки
+   */
   start(): void {
     $(this.settings.selector).each((_, elem) => {
-      let text = $(this).text();
-      let result = "";
+      const text = $(elem).text();
+      let result = '';
 
       for (let i = 0; i < text.length; i++) {
-        result += text[i][i % 2 ? "toLowerCase" : "toUpperCase"]();
+        result += text[i][i % 2 ? 'toLowerCase' : 'toUpperCase']();
       }
 
       $(this).text(result);
@@ -31,6 +34,9 @@ export class CrazyLettersJoke extends Joke<CrazyLettersJokeSettings> {
   }
 }
 
+/**
+ * Класс настроек для шутки "Мама, Я сОшЛа С уМа!"
+ */
 export class CrazyLettersJokeSettings implements JokeSettings {
   enabled: boolean = true;
 
@@ -39,5 +45,5 @@ export class CrazyLettersJokeSettings implements JokeSettings {
   /**
    * Селектор всех элементов, которые будут затронуты
    */
-  selector: string = ".pa-author a";
+  selector: string = '.pa-author a';
 }

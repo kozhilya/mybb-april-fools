@@ -1,6 +1,5 @@
-import { Joke, JokeSettings, StopableJoke } from "../joke";
-import { getTextNodes } from "../common";
-import $ from "jquery";
+import {Joke, JokeSettings} from '../joke';
+import {getTextNodes} from '../common';
 
 /**
  * **Ад гуманитария**
@@ -10,20 +9,29 @@ import $ from "jquery";
  * @author Kozhilya
  */
 export class HumanitarianHellJoke extends Joke<HumanitarianHellJokeSettings> {
-  id = "humanitarian_hell";
+  id = 'humanitarian_hell';
 
-  title = "Ад гуманитария";
+  title = 'Ад гуманитария';
 
   description = 'Все "тся" заменяются на "ться", а все "ться" на "тся"';
 
   _settings = new HumanitarianHellJokeSettings();
 
+  /**
+   * Обработка текста
+   *
+   * @param {string} text Входная строка
+   * @return {string} Итоговая строка
+   */
   processText(text: string): string {
-    return text.replace(/(ть?ся)/g, function (fnd) {
-      return fnd.indexOf("ь") > 0 ? "тся" : "ться";
+    return text.replace(/(ть?ся)/g, function(fnd) {
+      return fnd.indexOf('ь') > 0 ? 'тся' : 'ться';
     });
   }
 
+  /**
+   * Запуск шутки
+   */
   start(): void {
     const textNodes = getTextNodes(this.settings.selector);
 
@@ -33,6 +41,9 @@ export class HumanitarianHellJoke extends Joke<HumanitarianHellJokeSettings> {
   }
 }
 
+/**
+ * Класс настроек для шутки "Ад гуманитария"
+ */
 export class HumanitarianHellJokeSettings implements JokeSettings {
   enabled: boolean = true;
 
@@ -41,5 +52,5 @@ export class HumanitarianHellJokeSettings implements JokeSettings {
   /**
    * Селектор всех элементов, которые будут затронуты
    */
-  selector: string = ".post-content";
+  selector: HTMLElement | JQuery<HTMLElement> | string = '.post-content';
 }

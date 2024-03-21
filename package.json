@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "mybb-april-fools",
   "description": "Система первоапрельских розыгрышей для форумов MyBB",
   "homepage": "https://forumd.ru/viewtopic.php?id=7372",
@@ -11,7 +11,7 @@
   "license": "https://forumd.ru/viewtopic.php?id=5751#rule",
   "devDependencies": {
     "@babel/cli": "^7.21.0",
-    "@babel/core": "^7.21.3",
+    "@babel/core": "^7.24.3",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-typescript": "^7.21.0",
     "@types/jquery": "^3.5.16",
@@ -46,6 +46,8 @@
     "watch": "webpack --watch"
   },
   "dependencies": {
+    "@babel/eslint-parser": "^7.24.1",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
     "cursor-effects": "^1.0.11",
     "jquery": "^3.6.4",
     "webpack-utf8-bom": "^1.4.0"

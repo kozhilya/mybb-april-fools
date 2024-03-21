@@ -1,6 +1,6 @@
-import { stat } from "fs";
-import { Joke, JokeSettings, StopableJoke } from "./joke";
-import { JokerUI } from "./ui";
+import './types/mybb.d.ts';
+import {Joke, JokeSettings, StoppableJoke} from './joke';
+import {JokerUI} from './ui';
 
 /**
  * Блок обработки перво-апрельских шуток
@@ -9,58 +9,14 @@ import { JokerUI } from "./ui";
  */
 export class JokerClass {
   ui: JokerUI = new JokerUI(this);
-
   /**
-   * Проверка вероятности
-   *
-   * @param {number} chance Вероятность срабатывания
-   * @returns {boolean} Флаг срабатывания (true - сработало)
+   * Общие настройки системы
    */
-  check(chance: number): boolean {
-    return Math.random() < 0.01 * chance;
-  }
-
+  core_settings = new CoreSettings();
   /**
-   * Добавление шутки
-   *
-   * @param joke Объект шутки
+   * Перечисление всех шуток
    */
-  add(joke: Joke<any>): void {
-    this.jokes[joke.id] = joke;
-  }
-
-  /**
-   * Регистрация новой шутки
-   *
-   * @param id Идентификатор шутки
-   * @param handler Метод, выполняющий шутку
-   * @param settings Объект настроек шутки
-   */
-  addCustom(
-    id: string,
-    handler: Function,
-    settings: JokeSettings | null = null
-  ): Joke<JokeSettings> {
-    const joke = new (class extends Joke<JokeSettings> {
-      id = id;
-
-      title = "Пользовательская шутка";
-
-      description = "Для шутки не определено описание";
-
-      _settings = new JokeSettings();
-
-      start() {
-        handler.call(this, this.settings);
-      }
-    })();
-
-    joke.settings = settings;
-
-    this.add(joke);
-
-    return joke;
-  }
+  jokes: JokeMap = {};
 
   /**
    * Получение полного списка настроек
@@ -68,7 +24,7 @@ export class JokerClass {
   get settings(): SettingsMap {
     const result: SettingsMap = {};
 
-    result["core"] = this.core_settings;
+    result['core'] = this.core_settings;
 
     for (const entries of Object.entries(this.jokes)) {
       const id = entries[0];
@@ -83,17 +39,73 @@ export class JokerClass {
   /**
    * Запись новых настроек
    *
-   * @param settings
+   * @param {SettingsMap} settings
    */
   set settings(settings: SettingsMap) {
     for (const entry of Object.entries(settings)) {
       const id = entry[0];
       const jokeSettings = entry[1];
       const targetSettings =
-        id === "core" ? this.core_settings : this.jokes[id].settings;
+          id === 'core' ? this.core_settings : this.jokes[id].settings;
 
       Object.assign(targetSettings, jokeSettings);
     }
+  }
+
+  /**
+   * Проверка вероятности
+   *
+   * @param {number} chance Вероятность срабатывания
+   * @return {boolean} Флаг срабатывания (true - сработало)
+   */
+  check(chance: number): boolean {
+    return Math.random() < 0.01 * chance;
+  }
+
+  /**
+   * Добавление шутки
+   *
+   * @param {Joke} joke Объект шутки
+   */
+  add(joke: Joke<JokeSettings>): void {
+    this.jokes[joke.id] = joke;
+  }
+
+  /**
+   * Регистрация новой шутки
+   *
+   * @param {string} id Идентификатор шутки
+   * @param {JokeHandler} handler Метод, выполняющий шутку
+   * @param {JokeSettings | null} [settings] Объект настроек шутки
+   * @return {Joke<JokeSettings>} Объект шутки
+   */
+  addCustom(
+      id: string,
+      handler: JokeHandler,
+      settings: JokeSettings | null = null,
+  ): Joke<JokeSettings> {
+    const joke = new (class extends Joke<JokeSettings> {
+      id = id;
+
+      title = 'Пользовательская шутка';
+
+      description = 'Для шутки не определено описание';
+
+      _settings = new JokeSettings();
+
+      /**
+       * Метод запуска шутки
+       */
+      start() {
+        handler.call(this, this.settings);
+      }
+    })();
+
+    joke.settings = settings;
+
+    this.add(joke);
+
+    return joke;
   }
 
   /**
@@ -130,12 +142,15 @@ export class JokerClass {
 
   /**
    * Переключение шутки
+   *
+   * @param {string} jokeId ID шутки для переключения
+   * @param {boolean} state Новое состояние
    */
-  toggleJoke(joke_id: string, state: boolean) {
-    const joke = this.jokes[joke_id];
+  toggleJoke(jokeId: string, state: boolean) {
+    const joke = this.jokes[jokeId];
     joke.settings.enabled = state;
 
-    if (joke instanceof StopableJoke && !state) {
+    if (joke instanceof StoppableJoke && !state) {
       joke.stop();
     }
 
@@ -146,23 +161,23 @@ export class JokerClass {
    * Сохранение пользовательских настроек
    */
   saveUserStates() {
-    const states: any = {};
+    const states: { [key in string]: boolean } = {};
 
     for (const key of Object.keys(this.jokes)) {
       states[key] = this.jokes[key].settings.enabled;
     }
 
     fetch(
-      "/api.php?" +
+        '/api.php?' +
         $.param({
-          method: "storage.set",
-          user_id: (<any>window).UserID,
-          key: "april-fools",
-          token: (<any>window).ForumAPITicket,
+          method: 'storage.set',
+          user_id: window.UserID,
+          key: 'april-fools',
+          token: window.ForumAPITicket,
           value: JSON.stringify(states),
           timer: 24 * 60,
-        })
-    );
+        }),
+    ).then((_) => {});
   }
 
   /**
@@ -170,12 +185,12 @@ export class JokerClass {
    */
   async loadUserStates() {
     const response = await fetch(
-      "/api.php?" +
+        '/api.php?' +
         $.param({
-          method: "storage.get",
-          user_id: (<any>window).UserID,
-          key: "april-fools",
-        })
+          method: 'storage.get',
+          user_id: window.UserID,
+          key: 'april-fools',
+        }),
     );
     const json = await response.json();
 
@@ -183,22 +198,25 @@ export class JokerClass {
       return;
     }
 
-    const data = JSON.parse(json.response.storage.data["april-fools"]);
+    const data = JSON.parse(json.response.storage.data['april-fools']);
 
     for (const key of Object.keys(this.jokes)) {
       this.jokes[key].settings.enabled = data[key];
     }
   }
 
+  /**
+   * Отчистка настроек пользователя
+   */
   async clearUserStates() {
     await fetch(
-      "/api.php?" +
+        '/api.php?' +
         $.param({
-          method: "storage.delete",
-          user_id: (<any>window).UserID,
-          key: "april-fools",
-          token: (<any>window).ForumAPITicket,
-        })
+          method: 'storage.delete',
+          user_id: window.UserID,
+          key: 'april-fools',
+          token: window.ForumAPITicket,
+        }),
     );
 
     return;
@@ -207,17 +225,15 @@ export class JokerClass {
   /**
    * Запуск шутки
    *
-   * @param id
-   * @param {boolean} forced
+   * @param {string} jokeId ID шутки для запуска
+   * @param {boolean} [forced] Принудительный запуск
    */
-  start(id: string, forced: boolean = false) {
-    if (!(id in this.jokes)) return;
+  start(jokeId: string, forced: boolean = false) {
+    if (!(jokeId in this.jokes)) return;
 
-    const joke = this.jokes[id];
+    const joke = this.jokes[jokeId];
 
-    if (
-      !forced &&
-      (!joke.settings.enabled || !this.check(joke.settings.chance))
+    if (!forced && (!joke.settings.enabled || !this.check(joke.settings.chance))
     ) {
       return;
     }
@@ -227,6 +243,8 @@ export class JokerClass {
 
   /**
    * Запуск всех шуток
+   *
+   * @param {boolean} [forced] Принудительный запуск
    */
   startAll(forced: boolean = false): void {
     for (const key of Object.keys(this.jokes)) {
@@ -234,12 +252,17 @@ export class JokerClass {
     }
   }
 
+  /**
+   * Стандартная проверка 1 апреля
+   *
+   * @return {boolean} Флаг, должна ли запускаться система
+   */
   regularCheck(): boolean {
     if (!this.core_settings.enabled) {
       return false;
     }
 
-    if (this.core_settings.testers.indexOf((<any>window).UserID) >= 0) {
+    if (this.core_settings.testers.indexOf(window.UserID) >= 0) {
       return true;
     }
 
@@ -254,6 +277,9 @@ export class JokerClass {
     return this.check(this.core_settings.chance);
   }
 
+  /**
+   * Стандартный запуск 1 апреля
+   */
   async regularStart() {
     if (!this.regularCheck()) {
       return;
@@ -263,23 +289,15 @@ export class JokerClass {
     this.ui.show();
     this.startAll();
   }
-
-  /**
-   * Общие настройки системы
-   */
-  core_settings = new CoreSettings();
-
-  /**
-   * Перечисление всех шуток
-   */
-  jokes: JokeMap = {};
 }
+
+type JokeHandler = () => void;
 
 /**
  * Объект хранения шуток
  */
 interface JokeMap {
-  [key: string]: Joke<any>;
+  [key: string]: Joke< JokeSettings>;
 }
 
 /**
@@ -289,9 +307,15 @@ interface SettingsMap {
   [key: string]: JokeSettings;
 }
 
+/**
+ * Общие правила системы
+ */
 class CoreSettings implements JokeSettings {
   chance = 100;
   enabled = true;
 
+  /**
+   * Список пользователей-тестировщиков
+   */
   testers: number[] = [];
 }

@@ -1,8 +1,8 @@
-import { Joke, JokeSettings, StopableJoke } from "../joke";
-import $ from "jquery";
-import { Interface } from "readline";
-// import * as cursor_effects from "cursor-effects";
-const cursor_effects = require("cursor-effects");
+
+import {JokeSettings, StoppableJoke} from '../joke';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+import * as CursorEffectsLib from 'cursor-effects';
 
 /**
  * **Красивый курсор**
@@ -12,16 +12,17 @@ const cursor_effects = require("cursor-effects");
  * @author Tim Holman
  * @link https://tholman.com/cursor-effects/
  */
-export class CursorEffectsJoke extends StopableJoke<CursorEffectsJokeSettings> {
-  id = "cursor_effects";
+export class CursorEffectsJoke extends
+    StoppableJoke<CursorEffectsJokeSettings> {
+  id = 'cursor_effects';
 
-  title = "Красивый курсор";
+  title = 'Красивый курсор';
 
-  description = "Эффекты, следующие за курсором";
+  description = 'Эффекты, следующие за курсором';
 
   _settings = new CursorEffectsJokeSettings();
 
-  active_cursor_effect: any;
+  active_cursor_effect: CursorEffectsLib.CursorEffectResult;
 
   /**
    * Разблокировать все варианты курсоров
@@ -41,11 +42,21 @@ export class CursorEffectsJoke extends StopableJoke<CursorEffectsJokeSettings> {
     }
   }
 
+  /**
+   * Получение веса отдельного эффекта
+   * @param {CursorEffectsEnum} effect Тип эффекта
+   * @return {number} Значение веса
+   * @private
+   */
   private weight(effect: CursorEffectsEnum): number {
     const s = this.settings.effects[effect];
     return s.enabled ? s.weight : 0;
   }
 
+  /**
+   * Получение случайного эффекта
+   * @return {CursorEffectsEnum}
+   */
   getRandomEffect(): CursorEffectsEnum {
     const elements = Object.values(CursorEffectsEnum).map(
       (e) => <CursorEffectsEnum>e
@@ -64,9 +75,12 @@ export class CursorEffectsJoke extends StopableJoke<CursorEffectsJokeSettings> {
       }
     }
 
-    throw new Error("Тебя быть тут не должно...");
+    throw new Error('Тебя быть тут не должно...');
   }
 
+  /**
+   * Запуск шутки
+   */
   start(): void {
     const effect = this.getRandomEffect();
     const settings = this.settings.effects[effect];
@@ -74,65 +88,77 @@ export class CursorEffectsJoke extends StopableJoke<CursorEffectsJokeSettings> {
     this.active_cursor_effect = resolveCursorEffectsEnum(effect, settings);
   }
 
+  /**
+   * Остановка шутки
+   */
   stop(): void {
     this.active_cursor_effect.destroy();
   }
 }
 
 enum CursorEffectsEnum {
-  Rainbow = "rainbow",
-  FairyDust = "fairy_dust",
-  SpringyEmoji = "springy_emoji",
-  Emoji = "emoji",
-  Ghost = "ghost",
-  Trailing = "trailing",
-  TextFlag = "text_flag",
-  FollowingDot = "following_dot",
-  Bubbles = "bubbles",
-  Snowflake = "snowflake",
-  Clock = "clock",
+  Rainbow = 'rainbow',
+  FairyDust = 'fairy_dust',
+  SpringyEmoji = 'springy_emoji',
+  Emoji = 'emoji',
+  Ghost = 'ghost',
+  Trailing = 'trailing',
+  TextFlag = 'text_flag',
+  FollowingDot = 'following_dot',
+  Bubbles = 'bubbles',
+  Snowflake = 'snowflake',
+  Clock = 'clock',
 }
 
+/**
+ * Получение эффекта
+ * @param {CursorEffectsEnum | string} effect Тип эффекта
+ * @param {CursorEffectsSetting} options Настройки эффекта
+ * @return {CursorEffectsLib.CursorEffectResult}
+ */
 function resolveCursorEffectsEnum(
   effect: CursorEffectsEnum | string,
   options: CursorEffectsSetting
-): any {
+): CursorEffectsLib.CursorEffectResult {
   switch (effect) {
     case CursorEffectsEnum.Rainbow:
-      return cursor_effects.rainbowCursor(options);
+      return CursorEffectsLib.rainbowCursor(options);
 
     case CursorEffectsEnum.FairyDust:
-      return cursor_effects.fairyDustCursor(options);
+      return CursorEffectsLib.fairyDustCursor(options);
 
     case CursorEffectsEnum.SpringyEmoji:
-      return cursor_effects.springyEmojiCursor(options);
+      return CursorEffectsLib.springyEmojiCursor(options);
 
     case CursorEffectsEnum.Emoji:
-      return cursor_effects.emojiCursor(options);
+      return CursorEffectsLib.emojiCursor(options);
 
     case CursorEffectsEnum.Ghost:
-      return cursor_effects.ghostCursor(options);
+      return CursorEffectsLib.ghostCursor(options);
 
     case CursorEffectsEnum.Trailing:
-      return cursor_effects.trailingCursor(options);
+      return CursorEffectsLib.trailingCursor(options);
 
     case CursorEffectsEnum.TextFlag:
-      return cursor_effects.textFlag(options);
+      return CursorEffectsLib.textFlag(options);
 
     case CursorEffectsEnum.FollowingDot:
-      return cursor_effects.followingDotCursor(options);
+      return CursorEffectsLib.followingDotCursor(options);
 
     case CursorEffectsEnum.Bubbles:
-      return cursor_effects.bubbleCursor(options);
+      return CursorEffectsLib.bubbleCursor(options);
 
     case CursorEffectsEnum.Snowflake:
-      return cursor_effects.snowflakeCursor(options);
+      return CursorEffectsLib.snowflakeCursor(options);
 
     case CursorEffectsEnum.Clock:
-      return cursor_effects.clockCursor(options);
+      return CursorEffectsLib.clockCursor(options);
   }
 }
 
+/**
+ * Класс настроек для шутки "Красивый курсор"
+ */
 export class CursorEffectsJokeSettings implements JokeSettings {
   enabled: boolean = true;
 
@@ -143,7 +169,7 @@ export class CursorEffectsJokeSettings implements JokeSettings {
      * Радужный след за курсором
      */
     [CursorEffectsEnum.Rainbow]:
-      new (class extends DefaultCursorEffectsSetting {
+      new (class extends CursorEffectsSetting {
         /**
          * Длина полосы
          */
@@ -158,13 +184,13 @@ export class CursorEffectsJokeSettings implements JokeSettings {
          * Цвета полос (сверху вниз)
          */
         colors: string[] = [
-          "#9400D3",
-          "#4B0082",
-          "#0000FF",
-          "#00FF00",
-          "#FFFF00",
-          "#FF7F00",
-          "#FF0000",
+          '#9400D3',
+          '#4B0082',
+          '#0000FF',
+          '#00FF00',
+          '#FFFF00',
+          '#FF7F00',
+          '#FF0000',
         ];
       })(),
 
@@ -172,44 +198,44 @@ export class CursorEffectsJokeSettings implements JokeSettings {
      * Цепочка из эмодзи "на резинке" под курсором
      */
     [CursorEffectsEnum.SpringyEmoji]:
-      new (class extends DefaultCursorEffectsSetting {
+      new (class extends CursorEffectsSetting {
         /**
          * Висящий эмодзи
          */
-        emoji: string = "🤪";
+        emoji: string = '🤪';
       })(),
 
     /**
      * Падающие от курсора эмодзи
      */
-    [CursorEffectsEnum.Emoji]: new (class extends DefaultCursorEffectsSetting {
+    [CursorEffectsEnum.Emoji]: new (class extends CursorEffectsSetting {
       /**
        * Падающие эмодзи
        */
-      emoji: string[] = ["🔥", "🐬", "🦆"];
+      emoji: string[] = ['🔥', '🐬', '🦆'];
     })(),
 
     /**
      * Падающие от курсора пылинки
      */
     [CursorEffectsEnum.FairyDust]:
-      new (class extends DefaultCursorEffectsSetting {
+      new (class extends CursorEffectsSetting {
         /**
          * Цвет пылинок
          */
-        colors: string[] = ["#ff0000", "#00ff00", "#0000ff"];
+        colors: string[] = ['#ff0000', '#00ff00', '#0000ff'];
       })(),
 
     /**
      * След "зависших" курсоров
      */
-    [CursorEffectsEnum.Ghost]: new DefaultCursorEffectsSetting(),
+    [CursorEffectsEnum.Ghost]: new CursorEffectsSetting(),
 
     /**
      * След курсоров "на резинке"
      */
     [CursorEffectsEnum.Trailing]:
-      new (class extends DefaultCursorEffectsSetting {
+      new (class extends CursorEffectsSetting {
         /**
          * Количество элементов
          */
@@ -231,21 +257,21 @@ export class CursorEffectsJokeSettings implements JokeSettings {
      * Текст, развивающийся флагом от курсора
      */
     [CursorEffectsEnum.TextFlag]:
-      new (class extends DefaultCursorEffectsSetting {
+      new (class extends CursorEffectsSetting {
         /**
          * Отображаемый текст
          */
-        text: string = "С днём смеха!";
+        text: string = 'С днём смеха!';
 
         /**
          * Цвет текста
          */
-        color: string = "#000000";
+        color: string = '#000000';
 
         /**
          * Шрифт текста
          */
-        font: string = "monospace";
+        font: string = 'monospace';
 
         /**
          * Размер текста
@@ -267,17 +293,17 @@ export class CursorEffectsJokeSettings implements JokeSettings {
      * Точка, преследующая курсор
      */
     [CursorEffectsEnum.FollowingDot]:
-      new (class extends DefaultCursorEffectsSetting {
+      new (class extends CursorEffectsSetting {
         /**
          * Цвет догоняющей точки
          */
-        color: string = "#323232a6";
+        color: string = '#323232a6';
       })(),
 
     /**
      * Пузырьки от курсора
      */
-    [CursorEffectsEnum.Bubbles]: new DefaultCursorEffectsSetting(),
+    [CursorEffectsEnum.Bubbles]: new CursorEffectsSetting(),
 
     /**
      * Снежинки, летящие от курсора
@@ -285,47 +311,53 @@ export class CursorEffectsJokeSettings implements JokeSettings {
      * Отключено, потому что сейчас не зима :D
      */
     [CursorEffectsEnum.Snowflake]:
-      new (class extends DefaultCursorEffectsSetting {
+      new (class extends CursorEffectsSetting {
         weight: number = 0;
       })(),
 
     /**
      * Циферблат вокруг курсора
      */
-    [CursorEffectsEnum.Clock]: new (class extends DefaultCursorEffectsSetting {
+    [CursorEffectsEnum.Clock]: new (class extends CursorEffectsSetting {
       /**
        * Цвет даты
        */
-      dateColor: string = "blue";
+      dateColor: string = 'blue';
 
       /**
        * Цвет циферблата
        */
-      faceColor: string = "black";
+      faceColor: string = 'black';
 
       /**
        * Цвет секундной стрелки
        */
-      secondsColor: string = "red";
+      secondsColor: string = 'red';
 
       /**
        * Цвет минутной стрелки
        */
-      minutesColor: string = "black";
+      minutesColor: string = 'black';
 
       /**
        * Цвет часовой стрелки
        */
-      hoursColor: string = "black";
+      hoursColor: string = 'black';
     })(),
   };
 }
 
-interface CursorEffectsSetting {
-  [key: string]: any;
+/**
+ * Восстановление класса CursorEffectsLib.DefaultOptions
+ */
+class DefaultOptions {
+  readonly element?: HTMLElement;
 }
 
-class DefaultCursorEffectsSetting implements CursorEffectsSetting {
+/**
+ * Класс настроек для курсора
+ */
+class CursorEffectsSetting extends DefaultOptions {
   /**
    * Флаг возможности срабатывания
    */

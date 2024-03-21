@@ -1,19 +1,23 @@
-import { JokerClass } from "./joker";
-import { Joke } from "./joke";
-import { ShakeJoke } from "./jokes/shake";
-import { HumanitarianHellJoke } from "./jokes/humanitarian_hell";
-import { MirrorJoke } from "./jokes/mirror";
-import { CarnivalJoke } from "./jokes/carnival";
-import { CrazyLettersJoke } from "./jokes/crazy_letters";
-import { LetterChaosJoke } from "./jokes/letter_chaos";
-import { CursorEffectsJoke } from "./jokes/cursor";
-import { StupidTitleJoke } from "./jokes/stupid_title";
+import {JokerClass} from './joker';
+import {Joke, JokeSettings} from './joke';
+import {ShakeJoke} from './jokes/shake';
+import {HumanitarianHellJoke} from './jokes/humanitarian_hell';
+import {MirrorJoke} from './jokes/mirror';
+import {CarnivalJoke} from './jokes/carnival';
+import {CrazyLettersJoke} from './jokes/crazy_letters';
+import {LetterChaosJoke} from './jokes/letter_chaos';
+import {CursorEffectsJoke} from './jokes/cursor';
+import {StupidTitleJoke} from './jokes/stupid_title';
 
-(window as any).AprilJokes = ((jokes: JokeClassList): JokerClass => {
+declare global {
+  interface Window { AprilJokes: JokerClass; }
+}
+
+window.AprilJokes = ((jokes: JokeList): JokerClass => {
   const cl = new JokerClass();
 
-  jokes.forEach((joke) => {
-    cl.add(new joke());
+  jokes.forEach((CustomJoke) => {
+    cl.add(new CustomJoke());
   });
 
   $(() => cl.regularStart());
@@ -30,4 +34,4 @@ import { StupidTitleJoke } from "./jokes/stupid_title";
   StupidTitleJoke,
 ]);
 
-interface JokeClassList extends Array<new () => Joke<any>> {}
+interface JokeList extends Array<new () => Joke<JokeSettings>> {}
