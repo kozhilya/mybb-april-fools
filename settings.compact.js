@@ -190,4 +190,21 @@ window.AprilJokes.settings = {
       'y': 'ы', 'z': 'з',
     },
   },
+
+  fresh_grass: {
+    enabled: true,
+
+    chance: 100,
+
+    keepDistance: 200,
+    maxVelocity: 500,
+    minVelocity: 20,
+    tickPerSecond: 50,
+    gravity: 20,
+    correctionForce: 0.8,
+    mouseForceMax: 5000,
+    mouseForcePow: 5,
+    mass: 1,
+    collisionElasticity: 0.9,
+  }
 };
